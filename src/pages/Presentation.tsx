@@ -7,7 +7,6 @@ export function Presentation() {
   const location = useLocation();
   
   const isTheory = location.pathname.includes('/theory');
-  const isSessionPlan = location.pathname.includes('/session-plan');
 
   const course = mockCourses.find(c => c.id === (courseId || 'piad-221')) as any;
 
