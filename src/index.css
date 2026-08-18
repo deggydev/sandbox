@@ -1,0 +1,100 @@
+@import "tailwindcss";
+
+@theme {
+  --animate-shake: shake 2.5s cubic-bezier(.36,.07,.19,.97) infinite;
+  --animate-wiggle: wiggle 2s ease-in-out infinite;
+
+  @keyframes shake {
+    10%, 90% { transform: translate3d(-1px, 0, 0); }
+    20%, 80% { transform: translate3d(2px, 0, 0); }
+    30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
+    40%, 60% { transform: translate3d(4px, 0, 0); }
+  }
+
+  @keyframes wiggle {
+    0%, 100% { transform: rotate(-3deg); }
+    50% { transform: rotate(3deg); }
+  }
+  --color-app-bg: var(--app-bg);
+  --color-app-surface: var(--app-surface);
+  --color-app-surface-sec: var(--app-surface-sec);
+  --color-app-text: var(--app-text);
+  --color-app-muted: var(--app-muted);
+  --color-app-border: var(--app-border);
+  --color-app-primary: var(--app-primary);
+  --color-app-secondary: var(--app-secondary);
+}
+
+@layer base {
+  :root {
+    --app-bg: #F8FAFC;
+    --app-surface: #FFFFFF;
+    --app-surface-sec: #F1F5F9;
+    --app-text: #111827;
+    --app-muted: #64748B;
+    --app-border: #E5E7EB;
+    --app-primary: #2563EB;
+    --app-secondary: #3B82F6;
+  }
+
+  .theme-dark {
+    --app-bg: #090D16;
+    --app-surface: #111827;
+    --app-surface-sec: #1F2937;
+    --app-text: #F9FAFB;
+    --app-muted: #9CA3AF;
+    --app-border: #273244;
+    --app-primary: #3B82F6;
+    --app-secondary: #60A5FA;
+  }
+
+  .theme-rose {
+    --app-bg: #FFF7FA;
+    --app-surface: #FFFFFF;
+    --app-surface-sec: #FDF2F8;
+    --app-text: #25151C;
+    --app-muted: #72515F;
+    --app-border: #F2C6D7;
+    --app-primary: #BE3265;
+    --app-secondary: #E879A0;
+  }
+
+  .theme-sandbox {
+    --app-bg: #082860;
+    --app-surface: #0a3175;
+    --app-surface-sec: #0d3d91;
+    --app-text: #F8FAFC;
+    --app-muted: #94A3B8;
+    --app-border: #15459e;
+    --app-primary: #0068F8;
+    --app-secondary: #3b8cfc;
+  }
+
+  body {
+    background-color: var(--app-bg);
+    color: var(--app-text);
+    font-family: system-ui, -apple-system, sans-serif;
+    transition: background-color 0.2s ease, color 0.2s ease;
+    margin: 0;
+  }
+}
+
+/* Base styles for the presentation frame */
+.presentation-frame {
+  aspect-ratio: 16 / 9;
+  width: 100%;
+  max-height: 100vh;
+  margin: 0 auto;
+  overflow: hidden;
+  position: relative;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+/* Ocultar barra de scroll para el Drawer o áreas limpas */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
