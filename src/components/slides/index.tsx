@@ -66,24 +66,50 @@ export function TitleSlide({ title, content }: SlideProps) {
   );
 }
 
-export function TextSlide({ title, content, image, citations }: SlideProps) {
+export function TextSlide({ title, content, image, code, language, citations }: SlideProps) {
   return (
     <div className="flex-1 flex flex-col p-16 h-full">
-      <h2 className="text-4xl font-extrabold mb-10 text-[var(--color-app-text)] border-b-4 border-[var(--color-app-primary)] pb-4 w-max shrink-0">
+      <h2 className="text-4xl font-extrabold mb-8 text-[var(--color-app-text)] border-b-4 border-[var(--color-app-primary)] pb-4 w-max shrink-0">
         {title}
       </h2>
-      <div className="flex-1 flex gap-12 overflow-auto items-start">
-        <div 
-          className="flex-1 text-2xl leading-relaxed text-[var(--color-app-text)]/90 whitespace-pre-wrap font-medium"
-          dangerouslySetInnerHTML={{ __html: content || "Contenido de texto aquí..." }}
-        />
-        {image && (
-          <div className="flex-1 h-full max-h-[500px] rounded-3xl overflow-hidden shadow-2xl border-4 border-white/10 relative group">
-            <img src={image} alt={title} className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500" />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent pointer-events-none"></div>
+      
+      <div className={`flex-1 flex ${code ? 'flex-col gap-8' : 'gap-12'} min-h-0`}>
+        {/* Parte superior (texto o texto + imagen) */}
+        <div className={`flex ${code ? 'shrink-0' : 'flex-1'} gap-12 overflow-auto items-start`}>
+          <div 
+            className="flex-1 text-2xl leading-relaxed text-[var(--color-app-text)]/90 whitespace-pre-wrap font-medium"
+            dangerouslySetInnerHTML={{ __html: content || "Contenido de texto aquí..." }}
+          />
+          {image && (
+            <div className="flex-1 h-full max-h-[500px] rounded-3xl overflow-hidden shadow-2xl border-4 border-white/10 relative group">
+              <img src={image} alt={title} className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent pointer-events-none"></div>
+            </div>
+          )}
+        </div>
+
+        {/* Parte inferior: Bloque de código */}
+        {code && (
+          <div className="flex-1 min-h-0 rounded-2xl overflow-hidden shadow-2xl border border-[var(--color-app-border)] bg-[#1E1E1E] flex flex-col">
+            <div className="bg-[#2D2D2D] px-6 py-2 border-b border-gray-700 flex items-center gap-3 shrink-0">
+              <div className="w-3 h-3 rounded-full bg-red-500 shadow-sm"></div>
+              <div className="w-3 h-3 rounded-full bg-yellow-500 shadow-sm"></div>
+              <div className="w-3 h-3 rounded-full bg-green-500 shadow-sm"></div>
+              <span className="ml-4 text-xs font-bold text-gray-400 uppercase tracking-widest">{language || 'python'}</span>
+            </div>
+            <div className="p-4 flex-1 overflow-auto text-lg">
+              <SyntaxHighlighter 
+                language={language || 'python'} 
+                style={vscDarkPlus}
+                customStyle={{ margin: 0, padding: 0, background: 'transparent' }}
+              >
+                {code}
+              </SyntaxHighlighter>
+            </div>
           </div>
         )}
       </div>
+
       <Citations citations={citations} />
     </div>
   );
@@ -133,40 +159,69 @@ export function CodeSlide({ title, code, language, subtitle }: SlideProps) {
   );
 }
 
-export function ExerciseSlide({ title, subtitle, content, code, language, citations }: SlideProps) {
+export function ExerciseSlide({ title, subtitle, content, code, language, functionsToUse, citations }: SlideProps) {
   return (
     <div className="flex-1 flex flex-col p-16 h-full bg-[var(--color-app-surface-sec)]">
-      <div className="flex items-center gap-4 mb-8 shrink-0">
+      <div className="flex items-center gap-4 mb-6 shrink-0">
         <div className="px-4 py-1.5 bg-[var(--color-app-primary)] text-white text-sm font-bold uppercase tracking-widest rounded-full">
           Práctica
         </div>
         <h2 className="text-4xl font-extrabold text-[var(--color-app-text)]">{title}</h2>
       </div>
-      {subtitle && <h3 className="text-2xl font-semibold mb-6 text-[var(--color-app-muted)] shrink-0">{subtitle}</h3>}
+      {subtitle && <h3 className="text-2xl font-semibold mb-5 text-[var(--color-app-muted)] shrink-0">{subtitle}</h3>}
       
       <div className="flex-1 flex gap-8 min-h-0">
-        <div className="flex-1 text-xl leading-relaxed bg-[var(--color-app-surface)] p-8 rounded-xl border border-[var(--color-app-border)] shadow-sm overflow-auto" dangerouslySetInnerHTML={{ __html: content || "" }} />
-        
+        {/* Left panel: enunciado + functionsToUse */}
+        <div className="flex-1 flex flex-col bg-[var(--color-app-surface)] rounded-xl border border-[var(--color-app-border)] shadow-sm overflow-hidden">
+          {/* Enunciado */}
+          <div
+            className="flex-1 text-xl leading-relaxed p-8 overflow-auto"
+            dangerouslySetInnerHTML={{ __html: content || "" }}
+          />
+
+          {/* Deberías utilizar — chips compactos */}
+          {functionsToUse && functionsToUse.length > 0 && (
+            <div className="px-6 py-4 border-t border-[var(--color-app-border)] bg-[var(--color-app-surface-sec)] shrink-0">
+              <p className="text-xs font-bold uppercase tracking-widest text-[var(--color-app-muted)] mb-3 flex items-center gap-2">
+                <Icon icon="mdi:tools" className="text-[var(--color-app-primary)]" />
+                Deberías utilizar
+              </p>
+              <div className="flex flex-wrap gap-2">
+                {functionsToUse.map((fn, i) => (
+                  <span
+                    key={i}
+                    className="px-3 py-1 text-sm font-mono font-semibold bg-[var(--color-app-primary)]/10 text-[var(--color-app-primary)] border border-[var(--color-app-primary)]/20 rounded-lg"
+                  >
+                    {fn}
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* Right panel: Punto de partida */}
         {code && (
-           <div className="flex-1 rounded-2xl overflow-hidden shadow-xl border border-[var(--color-app-border)] bg-[#1E1E1E] flex flex-col">
-             <div className="bg-[#2D2D2D] px-4 py-2 border-b border-gray-700 flex items-center gap-2 shrink-0">
-               <span className="text-xs font-bold text-gray-400 uppercase tracking-widest flex items-center gap-2">
-                 <Icon icon="mdi:code-braces" className="text-lg" />
-                 Punto de partida
-               </span>
-             </div>
-             <div className="p-4 flex-1 overflow-auto text-lg">
-               <SyntaxHighlighter language={language || 'python'} style={vscDarkPlus} customStyle={{ margin: 0, padding: 0, background: 'transparent' }}>
-                 {code}
-               </SyntaxHighlighter>
-             </div>
-           </div>
+          <div className="flex-1 rounded-2xl overflow-hidden shadow-xl border border-[var(--color-app-border)] bg-[#1E1E1E] flex flex-col">
+            <div className="bg-[#2D2D2D] px-4 py-2 border-b border-gray-700 flex items-center gap-2 shrink-0">
+              <span className="text-xs font-bold text-gray-400 uppercase tracking-widest flex items-center gap-2">
+                <Icon icon="mdi:code-braces" className="text-lg" />
+                Punto de partida
+              </span>
+            </div>
+            <div className="p-4 flex-1 overflow-auto text-lg">
+              <SyntaxHighlighter language={language || 'python'} style={vscDarkPlus} customStyle={{ margin: 0, padding: 0, background: 'transparent' }}>
+                {code}
+              </SyntaxHighlighter>
+            </div>
+          </div>
         )}
       </div>
       <Citations citations={citations} />
     </div>
   );
 }
+
 
 export function ClosingSlide({ title, subtitle }: SlideProps) {
   return (
@@ -263,54 +318,121 @@ export function InteractiveListSlide({ title, items, citations }: SlideProps) {
   );
 }
 
-export function QuizSlide({ title, question, options, answer, explanation, citations }: SlideProps) {
+export function QuizSlide({ title, question, options, answer, explanation, code, language, citations }: SlideProps) {
   const [revealed, setRevealed] = useState(false);
   
   return (
-    <div className="flex-1 flex flex-col p-16 h-full bg-gradient-to-br from-indigo-900 to-purple-900 text-white relative overflow-hidden">
-      <div className="absolute -right-20 -bottom-20 opacity-10 pointer-events-none">
-        <Icon icon="mdi:help-circle" className="text-[500px]" />
+    <div className="flex-1 flex flex-col h-full bg-gradient-to-br from-indigo-900 to-purple-900 text-white relative overflow-hidden">
+      {/* Decorative background icon */}
+      <div className="absolute -right-16 -bottom-16 opacity-10 pointer-events-none">
+        <Icon icon="mdi:help-circle" className="text-[400px]" />
       </div>
-      
-      <div className="flex items-center gap-4 mb-12 shrink-0 relative z-10">
-        <Icon icon="mdi:frequently-asked-questions" className="text-6xl text-purple-300" />
-        <h2 className="text-5xl font-extrabold uppercase tracking-widest text-purple-100">{title || "Trivia"}</h2>
+
+      {/* Header — fixed height */}
+      <div className="flex items-center gap-3 px-10 pt-7 pb-4 border-b border-white/10 shrink-0 relative z-10">
+        <Icon icon="mdi:frequently-asked-questions" className="text-4xl text-purple-300 shrink-0" />
+        <h2 className="text-3xl font-extrabold uppercase tracking-widest text-purple-100 truncate">
+          {title || "Trivia"}
+        </h2>
       </div>
-      
-      <div className="flex-1 flex flex-col items-center justify-center max-w-5xl mx-auto w-full text-center space-y-12 relative z-10">
-        <h3 className="text-5xl font-black leading-tight drop-shadow-lg" dangerouslySetInnerHTML={{ __html: question || "" }}></h3>
-        
-        {options && (
-          <div className="grid grid-cols-2 gap-6 w-full">
-            {options.map((opt, i) => (
-              <div key={i} className={`p-6 rounded-2xl border-2 text-2xl font-bold transition-all duration-500 shadow-lg ${revealed && opt === answer ? 'bg-emerald-500 border-emerald-400 scale-105 text-white' : revealed ? 'bg-white/5 border-white/10 opacity-30 text-white/50' : 'bg-white/10 border-white/20 hover:bg-white/20 text-white'}`}>
-                {opt}
+
+      {/* Body — two-row layout */}
+      <div className="flex-1 flex flex-col min-h-0 relative z-10">
+
+        {/* Question panel */}
+        <div className={`px-10 pt-5 pb-3 shrink-0 overflow-y-auto ${code ? 'max-h-[55%]' : 'max-h-[38%]'}`}>
+          {/* Question text */}
+          {question && (
+            <div
+              className="text-xl md:text-2xl font-bold leading-snug text-center text-white drop-shadow mb-4"
+              dangerouslySetInnerHTML={{ __html: question }}
+            />
+          )}
+
+          {/* Code block inside the question */}
+          {code && (
+            <div className="rounded-2xl overflow-hidden border border-white/20 shadow-2xl bg-[#1E1E1E] text-left">
+              <div className="bg-[#2D2D2D] px-4 py-2 flex items-center gap-2 shrink-0">
+                <div className="w-2.5 h-2.5 rounded-full bg-red-500/80" />
+                <div className="w-2.5 h-2.5 rounded-full bg-yellow-500/80" />
+                <div className="w-2.5 h-2.5 rounded-full bg-green-500/80" />
+                <span className="ml-3 text-xs font-bold text-gray-400 uppercase tracking-widest">
+                  {language || 'python'}
+                </span>
               </div>
-            ))}
+              <SyntaxHighlighter
+                language={language || 'python'}
+                style={vscDarkPlus}
+                customStyle={{ margin: 0, padding: '1rem 1.25rem', background: 'transparent', fontSize: '1rem' }}
+                showLineNumbers={true}
+              >
+                {code}
+              </SyntaxHighlighter>
+            </div>
+          )}
+        </div>
+
+        {/* Divider */}
+        <div className="mx-10 border-t border-white/10 shrink-0" />
+
+        {/* Options + action panel — takes remaining space */}
+        <div className="flex-1 px-10 py-4 flex flex-col justify-between min-h-0">
+
+          {/* Answer options grid */}
+          {options && (
+            <div className="grid grid-cols-2 gap-3 flex-1 content-start">
+              {options.map((opt, i) => (
+                <div
+                  key={i}
+                  className={`flex items-center justify-center p-4 rounded-2xl border-2 text-xl font-bold transition-all duration-500 shadow-lg text-center ${
+                    revealed && opt === answer
+                      ? 'bg-emerald-500 border-emerald-400 scale-[1.03] text-white shadow-emerald-500/40 shadow-xl'
+                      : revealed
+                      ? 'bg-white/5 border-white/10 opacity-25 text-white/40'
+                      : 'bg-white/10 border-white/20 hover:bg-white/20 text-white'
+                  }`}
+                >
+                  <span className="mr-2 text-white/40 font-black">{String.fromCharCode(65 + i)}.</span>
+                  {opt}
+                </div>
+              ))}
+            </div>
+          )}
+
+          {/* Reveal button or answer explanation */}
+          <div className="mt-3 shrink-0">
+            {!revealed ? (
+              <button
+                onClick={() => setRevealed(true)}
+                className="w-full py-4 bg-purple-500 hover:bg-purple-400 text-white rounded-2xl text-2xl font-black shadow-[0_0_30px_rgba(168,85,247,0.4)] hover:shadow-[0_0_50px_rgba(168,85,247,0.6)] hover:scale-[1.02] transition-all"
+              >
+                Revelar Respuesta
+              </button>
+            ) : (
+              <div className="p-5 bg-emerald-500/20 border-2 border-emerald-500 rounded-2xl backdrop-blur-sm">
+                <div className="flex items-center justify-center gap-2 mb-2">
+                  <Icon icon="mdi:check-decagram" className="text-3xl text-emerald-400" />
+                  <h4 className="text-2xl font-black text-emerald-300">¡Respuesta Correcta!</h4>
+                  <span className="ml-2 text-xl font-bold text-white bg-emerald-600/50 px-3 py-0.5 rounded-full">{answer}</span>
+                </div>
+                {explanation && (
+                  <p
+                    className="text-base text-emerald-100 font-medium text-center leading-relaxed"
+                    dangerouslySetInnerHTML={{ __html: explanation }}
+                  />
+                )}
+              </div>
+            )}
           </div>
-        )}
-        
-        {!revealed ? (
-          <button 
-            onClick={() => setRevealed(true)}
-            className="mt-12 px-12 py-5 bg-purple-500 hover:bg-purple-400 text-white rounded-full text-3xl font-black shadow-[0_0_40px_rgba(168,85,247,0.4)] hover:shadow-[0_0_60px_rgba(168,85,247,0.6)] hover:scale-105 transition-all"
-          >
-            Revelar Respuesta
-          </button>
-        ) : (
-          <div className="mt-8 p-10 bg-emerald-500/20 border-4 border-emerald-500 rounded-3xl animate-[wiggle_0.5s_ease-in-out] backdrop-blur-sm">
-            <h4 className="text-4xl font-black text-emerald-300 mb-6 flex items-center justify-center gap-3">
-              <Icon icon="mdi:check-decagram" className="text-5xl" /> ¡Respuesta Correcta!
-            </h4>
-            <p className="text-3xl font-bold text-white mb-4">{answer}</p>
-            {explanation && <p className="text-xl text-emerald-100 font-medium" dangerouslySetInnerHTML={{ __html: explanation }}></p>}
-          </div>
-        )}
+
+        </div>
       </div>
+
       <Citations citations={citations} />
     </div>
   );
 }
+
 
 export function SolutionSlide({ title, subtitle, functionsToUse, code, language, citations }: SlideProps) {
   const [revealed, setRevealed] = useState(false);

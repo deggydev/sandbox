@@ -40,11 +40,27 @@ export function SessionPlanDocument() {
           if (slide.type === 'cover') return null;
 
           return (
-            <div key={index} className="mb-6">
-              {slide.title && <h2 className="text-base font-bold mb-2">{slide.title}</h2>}
+            <div key={index} className="mb-6 border-b border-[var(--color-app-border)]/30 pb-6 last:border-0 last:pb-0">
+              {slide.title && <h2 className="text-xl font-bold mb-3">{slide.title}</h2>}
               {slide.content && (
-                <div className="text-base leading-relaxed whitespace-pre-wrap">
-                  {slide.content}
+                <div 
+                  className="text-base leading-relaxed whitespace-pre-wrap mb-4"
+                  dangerouslySetInnerHTML={{ __html: slide.content }}
+                />
+              )}
+              {slide.code && (
+                <div className="mt-4 bg-[#1E1E1E] rounded-xl overflow-hidden shadow-lg border border-gray-800">
+                  <div className="flex items-center px-4 py-2 bg-[#2D2D2D] border-b border-gray-800">
+                    <div className="flex gap-1.5">
+                      <div className="w-3 h-3 rounded-full bg-[#FF5F56]"></div>
+                      <div className="w-3 h-3 rounded-full bg-[#FFBD2E]"></div>
+                      <div className="w-3 h-3 rounded-full bg-[#27C93F]"></div>
+                    </div>
+                    <span className="ml-4 text-xs text-gray-400 font-mono uppercase tracking-wider">{slide.language || 'code'}</span>
+                  </div>
+                  <pre className="p-4 text-sm font-mono text-gray-300 overflow-x-auto whitespace-pre-wrap leading-relaxed">
+                    {slide.code}
+                  </pre>
                 </div>
               )}
             </div>

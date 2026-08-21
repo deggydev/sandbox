@@ -1,12 +1,15 @@
 import { NavLink, useParams, useLocation } from 'react-router-dom';
 import { Icon } from '@iconify/react';
 import { AppLogo } from './AppLogo';
+import { mockCourses } from '../../data/mockCourses';
 
 export function AppSidebar() {
   const { courseId } = useParams();
   const location = useLocation();
 
   const isCourseContext = Boolean(courseId) || location.pathname.includes('/courses/');
+  const currentCourseId = courseId || 'piad-221';
+  const currentCourse = mockCourses.find(c => c.id === currentCourseId) || mockCourses[0];
 
   const navClass = ({ isActive }: { isActive: boolean }) => 
     `flex items-center gap-3 px-4 py-3 rounded-lg transition-colors font-medium ${
@@ -39,18 +42,27 @@ export function AppSidebar() {
           <span>Configuración</span>
         </NavLink>
 
-        {isCourseContext && (
+        {isCourseContext && currentCourse && (
           <>
-            <div className="pt-6 pb-2 px-4">
+            <div className="pt-6 pb-2 px-4 flex flex-col">
               <p className="text-xs font-bold text-[var(--color-app-muted)] uppercase tracking-wider">
                 Curso Actual
               </p>
+              <p className="text-xs text-[var(--color-app-text)] font-semibold truncate mt-1">
+                {currentCourse.code}
+              </p>
             </div>
 
-            <NavLink to={`/courses/${courseId || 'piad-221'}/week/week-01`} className={navClass}>
-              <Icon icon="mdi:calendar-week" className="text-xl" />
-              <span>Semana 01</span>
-            </NavLink>
+            {currentCourse.weeks.map(week => (
+              <NavLink 
+                key={week.id}
+                to={`/courses/${currentCourse.id}/week/${week.id}`} 
+                className={navClass}
+              >
+                <Icon icon="mdi:calendar-week" className="text-xl" />
+                <span>{week.title}</span>
+              </NavLink>
+            ))}
           </>
         )}
       </nav>

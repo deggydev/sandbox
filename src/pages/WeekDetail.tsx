@@ -1,6 +1,7 @@
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams, Navigate } from 'react-router-dom';
 import { Icon } from '@iconify/react';
 import { Button } from '../components/ui/Button';
+import { mockCourses } from '../data/mockCourses';
 
 const SingleSheetCard = ({ title, subtitle, linkTo }: { title: string, subtitle: string, linkTo: string }) => (
   <div 
@@ -62,8 +63,15 @@ const StackedSheetsCard = ({ title, subtitle, linkTo }: { title: string, subtitl
 export function WeekDetail() {
   const { courseId, weekId } = useParams();
 
-  // En la implementación real usaríamos weekId para obtener el nombre
-  const weekName = weekId === 'week-01' ? 'Semana 01' : 'Semana';
+  const course = mockCourses.find(c => c.id === (courseId || 'piad-221')) as any;
+  if (!course) return <Navigate to="/courses" replace />;
+
+  const week = course.weeks.find((w: any) => w.id === weekId) as any;
+  if (!week) return <Navigate to={`/courses/${course.id}`} replace />;
+
+  const hasTheoryPresentation = week.theory?.slides?.length > 0;
+  const hasWorkshopPresentation = week.workshop?.slides?.length > 0;
+  const hasPresentations = hasTheoryPresentation || hasWorkshopPresentation;
 
   return (
     <div className="max-w-5xl mx-auto space-y-10 mt-6 pb-12">
@@ -72,7 +80,7 @@ export function WeekDetail() {
           <div className="w-10 h-10 rounded-full bg-[var(--color-app-primary)]/10 flex items-center justify-center text-[var(--color-app-primary)]">
             <Icon icon="mdi:calendar-week" className="text-2xl" />
           </div>
-          <h1 className="text-3xl font-bold uppercase">{weekName}</h1>
+          <h1 className="text-3xl font-bold uppercase">{week.title}</h1>
         </div>
         <p className="text-[var(--color-app-muted)] text-lg pl-13">
           Seleccione el contenido o plan de sesión que desea visualizar.
@@ -98,24 +106,44 @@ export function WeekDetail() {
         </div>
       </div>
 
-      <div className="space-y-6 pt-6">
-        <h3 className="text-xl font-bold flex items-center gap-2">
-          <Icon icon="mdi:projector-screen-outline" className="text-[var(--color-app-primary)]" /> 
-          Presentaciones Interactivas
-        </h3>
-        <div className="grid md:grid-cols-2 gap-8">
-          <StackedSheetsCard 
-            title="Conocimiento teórico" 
-            subtitle="Diapositivas y material visual para la clase teórica."
-            linkTo={`/courses/${courseId}/week/${weekId}/theory/present`}
-          />
-          <StackedSheetsCard 
-            title="Taller / Práctica" 
-            subtitle="Casos de uso, código y ejercicios prácticos."
-            linkTo={`/courses/${courseId}/week/${weekId}/workshop/present`}
-          />
+      {hasPresentations && (
+        <div className="space-y-6 pt-6">
+          <h3 className="text-xl font-bold flex items-center gap-2">
+            <Icon icon="mdi:projector-screen-outline" className="text-[var(--color-app-primary)]" /> 
+            Presentaciones Interactivas
+          </h3>
+          <div className="grid md:grid-cols-2 gap-8">
+            {hasTheoryPresentation && (
+              <StackedSheetsCard 
+                title="Conocimiento teórico" 
+                subtitle="Diapositivas y material visual para la clase teórica."
+                linkTo={`/courses/${courseId}/week/${weekId}/theory/present`}
+              />
+            )}
+            {hasWorkshopPresentation && (
+              <StackedSheetsCard 
+                title="Taller / Práctica" 
+                subtitle="Casos de uso, código y ejercicios prácticos."
+                linkTo={`/courses/${courseId}/week/${weekId}/workshop/present`}
+              />
+            )}
+          </div>
         </div>
-      </div>
+      )}
+
+      {!hasPresentations && (
+        <div className="space-y-4 pt-6">
+          <h3 className="text-xl font-bold flex items-center gap-2 text-[var(--color-app-muted)]">
+            <Icon icon="mdi:projector-screen-outline" /> 
+            Presentaciones Interactivas
+          </h3>
+          <div className="border border-dashed border-[var(--color-app-border)] rounded-xl p-10 text-center text-[var(--color-app-muted)]">
+            <Icon icon="mdi:clock-outline" className="text-4xl mx-auto mb-3 opacity-40" />
+            <p className="font-medium">Las presentaciones interactivas de esta semana aún están en construcción.</p>
+            <p className="text-sm mt-1 opacity-70">Vuelve pronto.</p>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

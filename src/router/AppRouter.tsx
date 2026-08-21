@@ -1,4 +1,4 @@
-import { Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route, Navigate, useParams } from 'react-router-dom';
 import { AppLayout } from '../layouts/AppLayout';
 import { PresentationLayout } from '../layouts/PresentationLayout';
 import { Home } from '../pages/Home';
@@ -9,6 +9,14 @@ import { SessionPlanDocument } from '../pages/SessionPlanDocument';
 import { AiEducationList } from '../pages/AiEducationList';
 import { AiEducationDetail } from '../pages/AiEducationDetail';
 import { AiEducationPresentation } from '../pages/AiEducationPresentation';
+import { mockCourses } from '../data/mockCourses';
+
+function CourseRedirect() {
+  const { courseId } = useParams();
+  const course = mockCourses.find(c => c.id === courseId);
+  if (!course || course.weeks.length === 0) return <Navigate to="/courses" replace />;
+  return <Navigate to={`week/${course.weeks[0].id}`} replace />;
+}
 
 export function AppRouter() {
   return (
@@ -22,7 +30,7 @@ export function AppRouter() {
         <Route path="/ai-education/:videoId" element={<AiEducationDetail />} />
         
         {/* Redirección para el detalle del curso hacia la primera semana */}
-        <Route path="/courses/:courseId" element={<Navigate to="week/week-01" replace />} />
+        <Route path="/courses/:courseId" element={<CourseRedirect />} />
         
         <Route path="/courses/:courseId/week/:weekId" element={<WeekDetail />} />
         <Route path="/courses/:courseId/week/:weekId/session-plan/theory/view" element={<SessionPlanDocument />} />
