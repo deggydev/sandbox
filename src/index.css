@@ -1,20 +1,6 @@
 @import "tailwindcss";
 
 @theme {
-  --animate-shake: shake 2.5s cubic-bezier(.36,.07,.19,.97) infinite;
-  --animate-wiggle: wiggle 2s ease-in-out infinite;
-
-  @keyframes shake {
-    10%, 90% { transform: translate3d(-1px, 0, 0); }
-    20%, 80% { transform: translate3d(2px, 0, 0); }
-    30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
-    40%, 60% { transform: translate3d(4px, 0, 0); }
-  }
-
-  @keyframes wiggle {
-    0%, 100% { transform: rotate(-3deg); }
-    50% { transform: rotate(3deg); }
-  }
   --color-app-bg: var(--app-bg);
   --color-app-surface: var(--app-surface);
   --color-app-surface-sec: var(--app-surface-sec);
@@ -76,18 +62,149 @@
     font-family: system-ui, -apple-system, sans-serif;
     transition: background-color 0.2s ease, color 0.2s ease;
     margin: 0;
+    -webkit-tap-highlight-color: transparent;
   }
 }
 
-/* Base styles for the presentation frame */
+/* =========================================================
+   HIGHLIGHTING & UNDERLINE SYSTEM (Resaltado / Subrayado)
+   ========================================================= */
+
+/* Default <mark> style */
+mark {
+  background: linear-gradient(120deg, rgba(245, 158, 11, 0.22) 0%, rgba(251, 191, 36, 0.25) 100%);
+  color: inherit;
+  padding: 0.1em 0.35em;
+  border-radius: 0.375rem;
+  border-bottom: 2px solid #f59e0b;
+  font-weight: 600;
+}
+
+/* Color-specific highlighters (Resaltadores con subrayado) */
+.hl-amber, .highlight-amber {
+  background-color: rgba(245, 158, 11, 0.18);
+  color: #d97706;
+  border-bottom: 2px solid #f59e0b;
+  padding: 0.1em 0.35em;
+  border-radius: 0.375rem;
+}
+.theme-dark .hl-amber, .theme-dark .highlight-amber,
+.theme-sandbox .hl-amber, .theme-sandbox .highlight-amber {
+  color: #fbbf24;
+  background-color: rgba(245, 158, 11, 0.25);
+}
+
+.hl-emerald, .highlight-emerald {
+  background-color: rgba(16, 185, 129, 0.18);
+  color: #059669;
+  border-bottom: 2px solid #10b981;
+  padding: 0.1em 0.35em;
+  border-radius: 0.375rem;
+}
+.theme-dark .hl-emerald, .theme-dark .highlight-emerald,
+.theme-sandbox .hl-emerald, .theme-sandbox .highlight-emerald {
+  color: #34d399;
+  background-color: rgba(16, 185, 129, 0.25);
+}
+
+.hl-cyan, .highlight-cyan {
+  background-color: rgba(6, 182, 212, 0.18);
+  color: #0891b2;
+  border-bottom: 2px solid #06b6d4;
+  padding: 0.1em 0.35em;
+  border-radius: 0.375rem;
+}
+.theme-dark .hl-cyan, .theme-dark .highlight-cyan,
+.theme-sandbox .hl-cyan, .theme-sandbox .highlight-cyan {
+  color: #22d3ee;
+  background-color: rgba(6, 182, 212, 0.25);
+}
+
+.hl-purple, .highlight-purple {
+  background-color: rgba(168, 85, 247, 0.18);
+  color: #7e22ce;
+  border-bottom: 2px solid #a855f7;
+  padding: 0.1em 0.35em;
+  border-radius: 0.375rem;
+}
+.theme-dark .hl-purple, .theme-dark .highlight-purple,
+.theme-sandbox .hl-purple, .theme-sandbox .highlight-purple {
+  color: #c084fc;
+  background-color: rgba(168, 85, 247, 0.25);
+}
+
+.hl-rose, .highlight-rose {
+  background-color: rgba(244, 63, 94, 0.18);
+  color: #e11d48;
+  border-bottom: 2px solid #f43f5e;
+  padding: 0.1em 0.35em;
+  border-radius: 0.375rem;
+}
+.theme-dark .hl-rose, .theme-dark .highlight-rose,
+.theme-sandbox .hl-rose, .theme-sandbox .highlight-rose {
+  color: #fb7185;
+  background-color: rgba(244, 63, 94, 0.25);
+}
+
+.hl-blue, .highlight-blue {
+  background-color: rgba(59, 130, 246, 0.18);
+  color: #1d4ed8;
+  border-bottom: 2px solid #3b82f6;
+  padding: 0.1em 0.35em;
+  border-radius: 0.375rem;
+}
+.theme-dark .hl-blue, .theme-dark .highlight-blue,
+.theme-sandbox .hl-blue, .theme-sandbox .highlight-blue {
+  color: #60a5fa;
+  background-color: rgba(59, 130, 246, 0.25);
+}
+
+/* Elegant Underline Highlights */
+.hl-underline {
+  text-decoration: underline;
+  text-decoration-thickness: 3px;
+  text-underline-offset: 4px;
+  text-decoration-color: var(--color-app-primary);
+}
+
+/* =========================================================
+   PRESENTATION FRAME & RESPONSIVE ADAPTABILITY
+   ========================================================= */
+
 .presentation-frame {
-  aspect-ratio: 16 / 9;
   width: 100%;
-  max-height: 100vh;
+  min-height: 100dvh;
   margin: 0 auto;
-  overflow: hidden;
   position: relative;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.2);
+}
+
+/* On desktop / widescreen displays, preserve the 16:9 presentation slide canvas */
+@media (min-width: 1024px) {
+  .presentation-frame {
+    aspect-ratio: 16 / 9;
+    min-height: auto;
+    max-height: 100vh;
+    max-width: 177.78vh;
+    border-radius: 1rem;
+    overflow: hidden;
+  }
+}
+
+/* Custom smooth scrollbar for slide content */
+.custom-slide-scroll::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+.custom-slide-scroll::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.05);
+}
+.custom-slide-scroll::-webkit-scrollbar-thumb {
+  background: rgba(150, 150, 150, 0.3);
+  border-radius: 3px;
+}
+.custom-slide-scroll::-webkit-scrollbar-thumb:hover {
+  background: rgba(150, 150, 150, 0.5);
 }
 
 /* Ocultar barra de scroll para el Drawer o áreas limpas */

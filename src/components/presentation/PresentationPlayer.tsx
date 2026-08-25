@@ -1,8 +1,9 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { PresentationFrame } from './PresentationFrame';
 import { PresentationControls } from './PresentationControls';
 import { SlideRenderer } from './SlideRenderer';
+import { ThemeSwitcher } from '../app/ThemeSwitcher';
 import { usePresentation } from '../../hooks/usePresentation';
 import { useKeyboardNavigation } from '../../hooks/useKeyboardNavigation';
 
@@ -15,6 +16,8 @@ interface PresentationPlayerProps {
 export function PresentationPlayer({ slides, courseCode, contextTitle }: PresentationPlayerProps) {
   const navigate = useNavigate();
   const [controlsVisible, setControlsVisible] = useState(true);
+  const touchStartXRef = useRef<number | null>(null);
+  const touchStartYRef = useRef<number | null>(null);
   
   const { currentIndex, nextSlide, previousSlide, totalSlides } = usePresentation(slides.length);
 
@@ -37,27 +40,60 @@ export function PresentationPlayer({ slides, courseCode, contextTitle }: Present
     onExit: handleExit
   });
 
-  // Auto-hide controls logic
+  // Auto-hide controls logic for mouse and touch
   useEffect(() => {
     let timeoutId: number;
     
-    const handleMouseMove = () => {
+    const showControlsBriefly = () => {
       setControlsVisible(true);
       clearTimeout(timeoutId);
       timeoutId = window.setTimeout(() => {
         setControlsVisible(false);
-      }, 3000); // hide after 3s of inactivity
+      }, 3500); // hide after 3.5s of inactivity
     };
 
-    window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('mousemove', showControlsBriefly);
+    window.addEventListener('touchstart', showControlsBriefly, { passive: true });
+    
     // Initial hide
-    timeoutId = window.setTimeout(() => setControlsVisible(false), 3000);
+    timeoutId = window.setTimeout(() => setControlsVisible(false), 3500);
 
     return () => {
-      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('mousemove', showControlsBriefly);
+      window.removeEventListener('touchstart', showControlsBriefly);
       clearTimeout(timeoutId);
     };
   }, []);
+
+  // Touch swipe handling for mobile devices
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStartXRef.current = e.touches[0].clientX;
+    touchStartYRef.current = e.touches[0].clientY;
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    if (touchStartXRef.current === null || touchStartYRef.current === null) return;
+    
+    const touchEndX = e.changedTouches[0].clientX;
+    const touchEndY = e.changedTouches[0].clientY;
+    
+    const diffX = touchStartXRef.current - touchEndX;
+    const diffY = touchStartYRef.current - touchEndY;
+
+    // Only trigger if horizontal swipe is significantly stronger than vertical scroll
+    if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 50) {
+      if (diffX > 0) {
+        // Swiped Left -> Next slide
+        nextSlide();
+      } else {
+        // Swiped Right -> Previous slide
+        previousSlide();
+      }
+    }
+
+    touchStartXRef.current = null;
+    touchStartYRef.current = null;
+  };
 
   const currentSlideData = slides[currentIndex];
 
@@ -72,12 +108,21 @@ export function PresentationPlayer({ slides, courseCode, contextTitle }: Present
 
   return (
     <div 
-      className="relative w-full h-full flex items-center justify-center cursor-default select-none"
+      className="relative w-full h-full min-h-screen lg:min-h-0 flex items-center justify-center cursor-default select-none overflow-hidden"
+      onTouchStart={handleTouchStart}
+      onTouchEnd={handleTouchEnd}
       onContextMenu={(e) => e.preventDefault()} // Disable right click
       onCopy={(e) => e.preventDefault()} // Disable copying
     >
       <PresentationFrame
-        headerRight={contextTitle}
+        headerRight={
+          <div className="flex items-center gap-2 sm:gap-3">
+            <span className="hidden md:inline text-xs sm:text-sm font-semibold text-[var(--color-app-muted)] truncate max-w-[280px]">
+              {contextTitle}
+            </span>
+            <ThemeSwitcher />
+          </div>
+        }
         footerLeft={courseCode}
         footerRight={`Diapositiva ${currentIndex + 1} de ${totalSlides}`}
       >
@@ -96,3 +141,4 @@ export function PresentationPlayer({ slides, courseCode, contextTitle }: Present
     </div>
   );
 }
+

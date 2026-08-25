@@ -67,26 +67,49 @@ export function AppSidebar() {
         )}
       </nav>
 
-      {/* Footer info */}
-      <div className="p-4 mt-auto">
-        <div className="flex flex-col gap-2 px-2 text-[var(--color-app-muted)] text-sm">
-          <div className="flex items-center justify-between">
-            <span className="font-medium text-xs uppercase tracking-wider">Versión</span>
-            <span className="text-xs font-mono">v1.0.0</span>
+      {/* Footer / Instructor info (Centrado) */}
+      <div className="p-4 mt-auto border-t border-[var(--color-app-border)]/60 flex flex-col items-center justify-center text-center gap-2 select-none">
+        {/* Instructor Info */}
+        <div className="flex flex-col items-center">
+          <div className="flex items-center justify-center gap-1.5">
+            <span className="font-bold text-sm text-[var(--color-app-text)] tracking-tight">
+              Ing. Diego Lipa
+            </span>
+            <span title="Verificado" className="inline-flex items-center">
+              <Icon icon="mdi:check-decagram" className="text-emerald-500 text-sm shrink-0" />
+            </span>
           </div>
-          
-          <a 
-            href="https://github.com/deggydev" 
-            target="_blank" 
+          <p className="text-xs text-[var(--color-app-muted)] font-medium">
+            Instructor SENATI
+          </p>
+        </div>
+
+        {/* GitHub link & version */}
+        <div className="flex items-center justify-center gap-2.5 text-xs text-[var(--color-app-muted)]">
+          <a
+            href="https://github.com/deggydev"
+            target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center justify-between mt-1 pt-2 border-t border-[var(--color-app-border)]/50 hover:text-[var(--color-app-primary)] transition-colors group"
+            className="flex items-center gap-1 font-medium hover:text-[var(--color-app-primary)] transition-colors group"
+            title="GitHub @deggydev"
           >
-            <div className="flex items-center gap-2">
-              <Icon icon="mdi:github" className="text-lg" />
-              <span className="font-medium">deggydev</span>
-            </div>
-            <Icon icon="mdi:open-in-new" className="text-xs opacity-50 group-hover:opacity-100 transition-opacity" />
+            <Icon icon="mdi:github" className="text-sm text-[var(--color-app-text)] group-hover:text-[var(--color-app-primary)] transition-colors" />
+            <span>deggydev</span>
+            <Icon icon="mdi:open-in-new" className="text-[10px] opacity-40 group-hover:opacity-100 transition-opacity" />
           </a>
+          <span className="text-[var(--color-app-muted)]/40">•</span>
+          <span className="font-mono text-[11px] text-[var(--color-app-muted)] font-medium">
+            v2.0.2
+          </span>
+        </div>
+
+        {/* Powered by DEGGY al final */}
+        <div className="pt-1 border-t border-[var(--color-app-border)]/40 w-full flex items-center justify-center gap-1.5 text-xs text-[var(--color-app-muted)]">
+          <span>Hecho con</span>
+          <Icon icon="mdi:heart" className="text-rose-500 text-xs inline" />
+          <span className="font-extrabold tracking-wider text-[var(--color-app-primary)] uppercase">
+            D E G G Y
+          </span>
         </div>
       </div>
     </aside>
