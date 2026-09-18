@@ -1,63 +1,70 @@
 import { Link, useParams, Navigate } from 'react-router-dom';
 import { Icon } from '@iconify/react';
-import { Button } from '../components/ui/Button';
 import { mockCourses } from '../data/mockCourses';
 
-const SingleSheetCard = ({ title, subtitle, linkTo }: { title: string, subtitle: string, linkTo: string }) => (
-  <div 
-    className="group relative border border-[var(--color-app-border)] shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1 flex flex-col h-full rounded"
-    style={{
-      background: 'linear-gradient(225deg, transparent 24px, var(--color-app-surface) 0)'
-    }}
+interface ContentCardProps {
+  title: string;
+  subtitle: string;
+  linkTo: string;
+  icon: string;
+  label: string;
+}
+
+const SingleSheetCard = ({ title, subtitle, linkTo, icon, label }: ContentCardProps) => (
+  <Link
+    to={linkTo}
+    className="group relative bg-[var(--color-app-surface)] border border-[var(--color-app-border)] hover:border-[var(--color-app-primary)]/60 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1.5 flex flex-col h-full rounded-xl overflow-hidden focus:outline-none focus:ring-2 focus:ring-[var(--color-app-primary)]"
   >
     {/* Flawless Fold effect top-right */}
-    <div 
-      className="absolute top-[-1px] right-[-1px] shadow-[-2px_2px_4px_rgba(0,0,0,0.1)] rounded-bl border-b border-l border-[var(--color-app-border)] transition-all duration-300 group-hover:shadow-[-4px_4px_6px_rgba(0,0,0,0.1)]"
-      style={{
-        width: '34px',
-        height: '34px',
-        background: 'linear-gradient(225deg, transparent 50%, var(--color-app-surface-sec) 50%)'
-      }}
-    ></div>
-    
-    <div className="p-6 border-b border-[var(--color-app-border)] flex-1 pt-8">
-      <h2 className="text-lg font-bold mb-2 uppercase text-[var(--color-app-text)] pr-6">{title}</h2>
+    <div className="absolute top-0 right-0 w-14 h-14 bg-[var(--color-app-surface-sec)] border-l border-b border-[var(--color-app-border)] rounded-bl-[2rem] transition-all duration-300 group-hover:w-16 group-hover:h-16" />
+
+    <div className="p-6 md:p-7 flex-1 relative">
+      <div className="w-12 h-12 rounded-lg bg-[var(--color-app-primary)]/10 text-[var(--color-app-primary)] flex items-center justify-center mb-6 group-hover:bg-[var(--color-app-primary)] group-hover:text-white group-hover:rotate-6 group-hover:scale-125 group-hover:shadow-lg transition-all duration-300 origin-left">
+        <Icon icon={icon} className="text-2xl group-hover:scale-110 transition-transform duration-300" />
+      </div>
+      <span className="text-[10px] font-bold uppercase tracking-[0.16em] text-[var(--color-app-primary)]">{label}</span>
+      <h2 className="text-lg font-bold mt-2 mb-3 uppercase text-[var(--color-app-text)] pr-8 leading-snug">{title}</h2>
       <p className="text-sm text-[var(--color-app-muted)] leading-relaxed">{subtitle}</p>
     </div>
-    <div className="p-5 bg-[var(--color-app-surface-sec)] flex items-center justify-between rounded-b">
-      <span className="text-xs font-semibold text-[var(--color-app-muted)] uppercase tracking-wider flex items-center gap-1">
+    <div className="px-6 py-4 bg-[var(--color-app-surface-sec)] flex items-center justify-between border-t border-[var(--color-app-border)]">
+      <span className="text-xs font-semibold text-[var(--color-app-muted)] uppercase tracking-wider flex items-center gap-2">
         <Icon icon="mdi:file-document-outline" className="text-lg" /> Documento
       </span>
-      <Link to={linkTo}>
-        <Button variant="primary" className="shadow-sm">Abrir</Button>
-      </Link>
+      <span className="w-9 h-9 rounded-full border border-[var(--color-app-border)] bg-[var(--color-app-surface)] flex items-center justify-center text-[var(--color-app-primary)] group-hover:bg-[var(--color-app-primary)] group-hover:text-white group-hover:border-[var(--color-app-primary)] transition-all">
+        <Icon icon="lucide:arrow-up-right" className="group-hover:rotate-12 transition-transform" />
+      </span>
     </div>
-  </div>
+  </Link>
 );
 
-const StackedSheetsCard = ({ title, subtitle, linkTo }: { title: string, subtitle: string, linkTo: string }) => (
-  <div className="relative group mt-2 h-full flex flex-col cursor-default">
+const StackedSheetsCard = ({ title, subtitle, linkTo, icon, label }: ContentCardProps) => (
+  <Link to={linkTo} className="relative group mt-2 h-full flex flex-col focus:outline-none focus:ring-2 focus:ring-[var(--color-app-primary)] rounded-xl">
     {/* Background sheet 2 */}
-    <div className="absolute inset-0 bg-[var(--color-app-surface)] border border-[var(--color-app-border)] rounded-xl shadow-sm transform translate-y-2 translate-x-2 rotate-2 transition-transform duration-300 group-hover:translate-y-4 group-hover:translate-x-4 group-hover:rotate-6 opacity-50"></div>
+    <div className="absolute inset-0 bg-[var(--color-app-surface)] border border-[var(--color-app-border)] rounded-xl shadow-sm translate-y-2 translate-x-2 rotate-2 transition-transform duration-300 group-hover:translate-y-3 group-hover:translate-x-3 group-hover:rotate-3 opacity-50" />
     {/* Background sheet 1 */}
-    <div className="absolute inset-0 bg-[var(--color-app-surface)] border border-[var(--color-app-border)] rounded-xl shadow-sm transform translate-y-1 translate-x-1 rotate-1 transition-transform duration-300 group-hover:translate-y-2 group-hover:translate-x-2 group-hover:rotate-3 opacity-80"></div>
-    
+    <div className="absolute inset-0 bg-[var(--color-app-surface)] border border-[var(--color-app-border)] rounded-xl shadow-sm translate-y-1 translate-x-1 rotate-1 transition-transform duration-300 group-hover:translate-y-2 group-hover:translate-x-2 group-hover:rotate-2 opacity-80" />
+
     {/* Main Card */}
-    <div className="relative bg-[var(--color-app-surface)] border border-[var(--color-app-border)] rounded-xl shadow-md transition-all duration-300 group-hover:-translate-y-1 flex flex-col h-full z-10">
-      <div className="p-6 border-b border-[var(--color-app-border)] flex-1 pt-8">
-        <h2 className="text-lg font-bold mb-2 uppercase text-[var(--color-app-text)]">{title}</h2>
-        <p className="text-sm text-[var(--color-app-muted)] leading-relaxed">{subtitle}</p>
+    <div className="relative bg-[var(--color-app-surface)] border border-[var(--color-app-border)] group-hover:border-[var(--color-app-primary)]/60 rounded-xl shadow-md group-hover:shadow-xl transition-all duration-300 group-hover:-translate-y-1.5 flex flex-col h-full z-10 overflow-hidden">
+      <div className="p-6 md:p-7 flex-1 relative overflow-hidden">
+        <Icon icon="mdi:code-braces" className="absolute -right-5 -bottom-7 text-[110px] text-[var(--color-app-primary)] opacity-[0.04] group-hover:scale-110 group-hover:-rotate-6 transition-transform duration-500" />
+        <div className="w-12 h-12 rounded-lg bg-[var(--color-app-primary)] text-white flex items-center justify-center mb-6 shadow-md group-hover:scale-125 group-hover:-rotate-6 group-hover:shadow-lg transition-all duration-300 origin-left">
+          <Icon icon={icon} className="text-2xl group-hover:scale-110 transition-transform duration-300" />
+        </div>
+        <span className="text-[10px] font-bold uppercase tracking-[0.16em] text-[var(--color-app-primary)]">{label}</span>
+        <h2 className="text-lg font-bold mt-2 mb-3 uppercase text-[var(--color-app-text)] leading-snug">{title}</h2>
+        <p className="text-sm text-[var(--color-app-muted)] leading-relaxed relative z-10">{subtitle}</p>
       </div>
-      <div className="p-5 bg-[var(--color-app-surface-sec)] flex items-center justify-between rounded-b-xl">
-        <span className="text-xs font-semibold text-[var(--color-app-muted)] uppercase tracking-wider flex items-center gap-1">
+      <div className="px-6 py-4 bg-[var(--color-app-surface-sec)] flex items-center justify-between border-t border-[var(--color-app-border)]">
+        <span className="text-xs font-semibold text-[var(--color-app-muted)] uppercase tracking-wider flex items-center gap-2">
           <Icon icon="mdi:presentation-play" className="text-lg" /> Presentación
         </span>
-        <Link to={linkTo}>
-          <Button variant="primary" className="shadow-sm">Abrir</Button>
-        </Link>
+        <span className="inline-flex items-center gap-1.5 text-sm font-bold text-[var(--color-app-primary)]">
+          Iniciar <Icon icon="lucide:play" className="group-hover:translate-x-1 transition-transform" />
+        </span>
       </div>
     </div>
-  </div>
+  </Link>
 );
 
 export function WeekDetail() {
@@ -72,59 +79,92 @@ export function WeekDetail() {
   const hasTheoryPresentation = week.theory?.slides?.length > 0;
   const hasWorkshopPresentation = week.workshop?.slides?.length > 0;
   const hasPresentations = hasTheoryPresentation || hasWorkshopPresentation;
+  const availableResources = 2 + Number(hasTheoryPresentation) + Number(hasWorkshopPresentation);
 
   return (
-    <div className="max-w-5xl mx-auto space-y-10 mt-6 pb-12">
-      <div className="border-b border-[var(--color-app-border)] pb-6">
-        <div className="flex items-center gap-3 mb-2">
-          <div className="w-10 h-10 rounded-full bg-[var(--color-app-primary)]/10 flex items-center justify-center text-[var(--color-app-primary)]">
-            <Icon icon="mdi:calendar-week" className="text-2xl" />
+    <div className="max-w-6xl mx-auto space-y-12 mt-4 pb-12">
+      <div className="relative bg-[var(--color-app-surface)] border border-[var(--color-app-border)] rounded-xl p-6 md:p-8 overflow-hidden shadow-sm">
+        <Icon icon="mdi:code-tags" className="absolute -right-5 -bottom-10 text-[170px] text-[var(--color-app-primary)] opacity-[0.035]" />
+        <div className="relative flex flex-col md:flex-row md:items-center gap-5">
+          <div className="w-14 h-14 rounded-xl bg-[var(--color-app-primary)] text-white flex items-center justify-center shadow-md shrink-0">
+            <Icon icon="mdi:calendar-week" className="text-3xl" />
           </div>
-          <h1 className="text-3xl font-bold uppercase">{week.title}</h1>
+          <div className="flex-1">
+            <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-[0.14em] text-[var(--color-app-primary)] mb-2">
+              <span>{course.code}</span>
+              <span className="w-1 h-1 rounded-full bg-[var(--color-app-muted)]" />
+              <span>Contenido académico</span>
+            </div>
+            <h1 className="text-3xl md:text-4xl font-bold uppercase tracking-tight">{week.title}</h1>
+            <p className="text-[var(--color-app-muted)] mt-2 leading-relaxed">
+              Selecciona un plan de sesión o inicia una presentación interactiva para desarrollar la clase.
+            </p>
+          </div>
+          <div className="flex gap-2 shrink-0">
+            <div className="px-4 py-3 rounded-lg bg-[var(--color-app-surface-sec)] border border-[var(--color-app-border)] text-center">
+              <p className="text-xl font-bold text-[var(--color-app-primary)]">{availableResources}</p>
+              <p className="text-[10px] uppercase tracking-wider text-[var(--color-app-muted)]">Recursos</p>
+            </div>
+          </div>
         </div>
-        <p className="text-[var(--color-app-muted)] text-lg pl-13">
-          Seleccione el contenido o plan de sesión que desea visualizar.
-        </p>
       </div>
-      
+
       <div className="space-y-6">
-        <h3 className="text-xl font-bold flex items-center gap-2">
-          <Icon icon="mdi:clipboard-text-outline" className="text-[var(--color-app-primary)]" /> 
-          Planes de Sesión
-        </h3>
-        <div className="grid md:grid-cols-2 gap-8">
-          <SingleSheetCard 
-            title="Plan de sesión teórico" 
+        <div className="flex items-center gap-4">
+          <div className="w-10 h-10 rounded-lg bg-[var(--color-app-primary)]/10 text-[var(--color-app-primary)] flex items-center justify-center">
+            <Icon icon="mdi:clipboard-text-outline" className="text-xl" />
+          </div>
+          <div>
+            <h3 className="text-xl font-bold">Planes de sesión</h3>
+            <p className="text-sm text-[var(--color-app-muted)]">Objetivos, contenidos y actividades para organizar la clase.</p>
+          </div>
+        </div>
+        <div className="grid md:grid-cols-2 gap-6">
+          <SingleSheetCard
+            title="Plan de sesión teórico"
             subtitle="Lineamientos, temas y objetivos teóricos de la semana."
             linkTo={`/courses/${courseId}/week/${weekId}/session-plan/theory/view`}
+            icon="lucide:book-open-check"
+            label="Conocimiento"
           />
-          <SingleSheetCard 
-            title="Plan de sesión taller" 
+          <SingleSheetCard
+            title="Plan de sesión taller"
             subtitle="Indicaciones, ejercicios y objetivos prácticos de la semana."
             linkTo={`/courses/${courseId}/week/${weekId}/session-plan/workshop/view`}
+            icon="lucide:clipboard-check"
+            label="Aplicación práctica"
           />
         </div>
       </div>
 
       {hasPresentations && (
-        <div className="space-y-6 pt-6">
-          <h3 className="text-xl font-bold flex items-center gap-2">
-            <Icon icon="mdi:projector-screen-outline" className="text-[var(--color-app-primary)]" /> 
-            Presentaciones Interactivas
-          </h3>
-          <div className="grid md:grid-cols-2 gap-8">
+        <div className="space-y-6 pt-2">
+          <div className="flex items-center gap-4">
+            <div className="w-10 h-10 rounded-lg bg-[var(--color-app-primary)] text-white flex items-center justify-center shadow-sm">
+              <Icon icon="mdi:projector-screen-outline" className="text-xl" />
+            </div>
+            <div>
+              <h3 className="text-xl font-bold">Presentaciones interactivas</h3>
+              <p className="text-sm text-[var(--color-app-muted)]">Material visual preparado para acompañar la exposición.</p>
+            </div>
+          </div>
+          <div className="grid md:grid-cols-2 gap-6 pb-2">
             {hasTheoryPresentation && (
-              <StackedSheetsCard 
-                title="Conocimiento teórico" 
+              <StackedSheetsCard
+                title="Conocimiento teórico"
                 subtitle="Diapositivas y material visual para la clase teórica."
                 linkTo={`/courses/${courseId}/week/${weekId}/theory/present`}
+                icon="lucide:presentation"
+                label={`${week.theory.slides.length} diapositivas`}
               />
             )}
             {hasWorkshopPresentation && (
-              <StackedSheetsCard 
-                title="Taller / Práctica" 
+              <StackedSheetsCard
+                title="Taller / Práctica"
                 subtitle="Casos de uso, código y ejercicios prácticos."
                 linkTo={`/courses/${courseId}/week/${weekId}/workshop/present`}
+                icon="lucide:code-xml"
+                label={`${week.workshop.slides.length} diapositivas`}
               />
             )}
           </div>
@@ -134,10 +174,10 @@ export function WeekDetail() {
       {!hasPresentations && (
         <div className="space-y-4 pt-6">
           <h3 className="text-xl font-bold flex items-center gap-2 text-[var(--color-app-muted)]">
-            <Icon icon="mdi:projector-screen-outline" /> 
-            Presentaciones Interactivas
+            <Icon icon="mdi:projector-screen-outline" />
+            Presentaciones interactivas
           </h3>
-          <div className="border border-dashed border-[var(--color-app-border)] rounded-xl p-10 text-center text-[var(--color-app-muted)]">
+          <div className="border border-dashed border-[var(--color-app-border)] rounded-xl p-10 text-center text-[var(--color-app-muted)] bg-[var(--color-app-surface)]">
             <Icon icon="mdi:clock-outline" className="text-4xl mx-auto mb-3 opacity-40" />
             <p className="font-medium">Las presentaciones interactivas de esta semana aún están en construcción.</p>
             <p className="text-sm mt-1 opacity-70">Vuelve pronto.</p>
