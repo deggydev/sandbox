@@ -159,6 +159,23 @@ mark {
   background-color: rgba(59, 130, 246, 0.25);
 }
 
+/* High-contrast badge for colored callout backgrounds */
+.hl-badge,
+.hl-callout {
+  background-color: rgba(255, 255, 255, 0.95);
+  color: #111827;
+  border-bottom: 2px solid rgba(0, 0, 0, 0.1);
+  padding: 0.15em 0.45em;
+  border-radius: 0.375rem;
+  font-weight: 800;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+}
+.theme-dark .hl-badge,
+.theme-dark .hl-callout {
+  background-color: rgba(255, 255, 255, 0.98);
+  color: #0f172a;
+}
+
 /* Elegant Underline Highlights */
 .hl-underline {
   text-decoration: underline;
@@ -214,4 +231,91 @@ mark {
 .no-scrollbar {
   -ms-overflow-style: none;
   scrollbar-width: none;
+}
+
+/* SlideOverview entrance & card interactions */
+@keyframes overview-enter {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes overview-card-pop {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.overview-backdrop {
+  animation: overview-enter 0.25s ease-out forwards;
+}
+
+.overview-card {
+  opacity: 0;
+  animation: overview-card-pop 0.35s ease-out forwards;
+}
+
+.overview-card:nth-child(1) { animation-delay: 0.02s; }
+.overview-card:nth-child(2) { animation-delay: 0.04s; }
+.overview-card:nth-child(3) { animation-delay: 0.06s; }
+.overview-card:nth-child(4) { animation-delay: 0.08s; }
+.overview-card:nth-child(5) { animation-delay: 0.10s; }
+.overview-card:nth-child(6) { animation-delay: 0.12s; }
+.overview-card:nth-child(7) { animation-delay: 0.14s; }
+.overview-card:nth-child(8) { animation-delay: 0.16s; }
+.overview-card:nth-child(9) { animation-delay: 0.18s; }
+.overview-card:nth-child(10) { animation-delay: 0.20s; }
+.overview-card:nth-child(11) { animation-delay: 0.22s; }
+.overview-card:nth-child(12) { animation-delay: 0.24s; }
+.overview-card:nth-child(13) { animation-delay: 0.26s; }
+.overview-card:nth-child(14) { animation-delay: 0.28s; }
+.overview-card:nth-child(15) { animation-delay: 0.30s; }
+.overview-card:nth-child(16) { animation-delay: 0.32s; }
+.overview-card:nth-child(17) { animation-delay: 0.34s; }
+.overview-card:nth-child(18) { animation-delay: 0.36s; }
+.overview-card:nth-child(19) { animation-delay: 0.38s; }
+.overview-card:nth-child(20) { animation-delay: 0.40s; }
+
+.overview-card .overview-icon {
+  transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.overview-card:hover .overview-icon {
+  transform: scale(1.25) rotate(-6deg);
+}
+
+.overview-card .overview-number {
+  transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+.overview-card:hover .overview-number {
+  transform: scale(1.1);
+}
+
+.overview-active-ring {
+  box-shadow: 0 0 0 3px var(--color-app-primary), 0 10px 25px -5px rgba(0,0,0,0.25);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .overview-backdrop,
+  .overview-card {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+  .overview-card::before,
+  .overview-card:hover::before {
+    animation: none;
+    opacity: 0;
+  }
 }

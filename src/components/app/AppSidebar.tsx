@@ -21,7 +21,7 @@ function NavItem({ to, icon, label, end, badge, onClick }: NavItemProps) {
       to={to}
       end={end}
       onClick={onClick}
-      className={`group relative flex items-center gap-3 px-3 py-2.5 rounded-lg overflow-hidden transition-all duration-200 font-medium ${
+      className={`group relative flex items-center gap-3 px-3.5 py-3 rounded-lg overflow-hidden transition-all duration-200 font-medium ${
         isActive
           ? 'bg-[var(--color-app-primary)] text-white shadow-md'
           : 'text-[var(--color-app-muted)] hover:text-[var(--color-app-text)]'
@@ -65,7 +65,7 @@ export function AppSidebar() {
   const currentCourse = mockCourses.find(c => c.id === currentCourseId) || mockCourses[0];
 
   return (
-    <aside className="w-64 border-r border-[var(--color-app-border)] bg-[var(--color-app-surface)] h-full hidden md:flex flex-col overflow-hidden transition-colors duration-200">
+    <aside className="w-[17.5rem] border-r border-[var(--color-app-border)] bg-[var(--color-app-surface)] h-full hidden md:flex flex-col overflow-hidden transition-colors duration-200">
       <div className="h-16 flex items-center px-6 border-b border-[var(--color-app-border)] relative overflow-hidden">
         <div className="absolute top-0 right-0 w-12 h-12 border-l border-b border-[var(--color-app-primary)]/10 rounded-bl-[2rem]" />
         <AppLogo />

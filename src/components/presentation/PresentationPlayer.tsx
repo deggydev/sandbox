@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { PresentationFrame } from './PresentationFrame';
 import { PresentationControls } from './PresentationControls';
 import { SlideRenderer } from './SlideRenderer';
+import { SlideOverview } from './SlideOverview';
 import { ThemeSwitcher } from '../app/ThemeSwitcher';
 import { usePresentation } from '../../hooks/usePresentation';
 import { useKeyboardNavigation } from '../../hooks/useKeyboardNavigation';
@@ -16,10 +17,11 @@ interface PresentationPlayerProps {
 export function PresentationPlayer({ slides, courseCode, contextTitle }: PresentationPlayerProps) {
   const navigate = useNavigate();
   const [controlsVisible, setControlsVisible] = useState(true);
+  const [overviewOpen, setOverviewOpen] = useState(false);
   const touchStartXRef = useRef<number | null>(null);
   const touchStartYRef = useRef<number | null>(null);
   
-  const { currentIndex, nextSlide, previousSlide, totalSlides } = usePresentation(slides.length);
+  const { currentIndex, nextSlide, previousSlide, goToSlide, totalSlides } = usePresentation(slides.length);
 
   const handleExit = () => {
     navigate(-1);
@@ -133,11 +135,23 @@ export function PresentationPlayer({ slides, courseCode, contextTitle }: Present
         onNext={nextSlide}
         onPrev={previousSlide}
         onExit={handleExit}
-        onOverview={() => alert('Vista general no implementada todavía')}
+        onOverview={() => setOverviewOpen(true)}
         currentIndex={currentIndex}
         totalSlides={totalSlides}
         isVisible={controlsVisible}
       />
+
+      {overviewOpen && (
+        <SlideOverview
+          slides={slides}
+          currentIndex={currentIndex}
+          onSelect={(index) => {
+            goToSlide(index);
+            setOverviewOpen(false);
+          }}
+          onClose={() => setOverviewOpen(false)}
+        />
+      )}
     </div>
   );
 }
