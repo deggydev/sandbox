@@ -5,7 +5,11 @@ import { Button } from '../components/ui/Button';
 export function AiEducationList() {
   return (
     <div className="max-w-4xl mx-auto space-y-6 mt-4">
-      <h1 className="text-3xl font-bold">IA en la Educación</h1>
+      <div>
+        <p className="text-xs font-bold uppercase tracking-[0.16em] text-[var(--color-app-primary)] mb-2">Contenido complementario</p>
+        <h1 className="text-3xl font-bold">Otros cursos</h1>
+        <p className="text-[var(--color-app-muted)] mt-2">Material complementario y talleres especiales fuera del programa académico principal.</p>
+      </div>
       
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
         <Card className="flex flex-col group h-full">

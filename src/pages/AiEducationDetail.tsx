@@ -46,7 +46,7 @@ export function AiEducationDetail() {
           <h1 className="text-3xl font-bold uppercase">¿Vale la pena estudiar en la era de ChatGPT?</h1>
         </div>
         <p className="text-[var(--color-app-muted)] text-lg pl-13">
-          Seleccione el contenido o presentación que desea visualizar.
+          Otros cursos / Contenido complementario
         </p>
       </div>
       

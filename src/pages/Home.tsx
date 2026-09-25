@@ -33,7 +33,7 @@ export function Home() {
                   <Icon icon="lucide:arrow-right" className="group-hover:translate-x-1 transition-transform" />
                 </Link>
                 <Link to="/ai-education" className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-md border border-[var(--color-app-border)] bg-[var(--color-app-surface)] text-[var(--color-app-text)] font-semibold hover:border-[var(--color-app-primary)] hover:text-[var(--color-app-primary)] hover:-translate-y-0.5 transition-all">
-                  IA en la educación
+                  Otros cursos
                 </Link>
               </div>
             </div>
@@ -145,8 +145,8 @@ export function Home() {
               <div className="w-11 h-11 rounded-md bg-[var(--color-app-primary)]/10 text-[var(--color-app-primary)] flex items-center justify-center mb-5">
                 <Icon icon="lucide:brain-circuit" className="text-2xl" />
               </div>
-              <p className="text-xs font-bold uppercase tracking-[0.16em] text-[var(--color-app-primary)] mb-2">Análisis y reflexión</p>
-              <h2 id="ai-title" className="text-2xl md:text-3xl font-bold text-[var(--color-app-text)]">IA en la educación</h2>
+              <p className="text-xs font-bold uppercase tracking-[0.16em] text-[var(--color-app-primary)] mb-2">Contenido complementario</p>
+              <h2 id="ai-title" className="text-2xl md:text-3xl font-bold text-[var(--color-app-text)]">Otros cursos</h2>
               <h3 className="text-lg font-semibold mt-4 text-[var(--color-app-text)]">¿Vale la pena estudiar en la era de ChatGPT?</h3>
               <p className="text-[var(--color-app-muted)] mt-3 leading-relaxed max-w-2xl">
                 Un análisis sobre cómo la inteligencia artificial transforma el aprendizaje, la evaluación y el desarrollo del pensamiento crítico.
