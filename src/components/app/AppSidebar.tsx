@@ -118,34 +118,27 @@ export function AppSidebar() {
               <Icon icon="mdi:check-decagram" className="text-emerald-500 text-base shrink-0" />
             </div>
             <p className="text-xs font-semibold uppercase tracking-wider text-[var(--color-app-muted)]">Instructor SENATI</p>
-            <p className="text-[10px] text-[var(--color-app-muted)]/70 font-mono">Diego Lipa • DEGGY</p>
+            <p className="text-[10px] text-[var(--color-app-muted)]/70 font-mono">Diego Lipa • DEGGY • v2.1.2</p>
           </div>
         </div>
 
-        <div className="relative z-10 flex items-center justify-center gap-2.5 text-xs text-[var(--color-app-muted)]">
-          <a
-            href="https://github.com/deggydev"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center gap-1 font-medium hover:text-[var(--color-app-primary)] transition-colors group"
-            title="GitHub @deggydev"
-          >
-            <Icon icon="mdi:github" className="text-sm text-[var(--color-app-text)] group-hover:text-[var(--color-app-primary)] group-hover:scale-110 transition-all" />
-            <span>deggydev</span>
-            <Icon icon="mdi:open-in-new" className="text-[10px] opacity-40 group-hover:opacity-100 transition-opacity group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-          </a>
-          <span className="text-[var(--color-app-muted)]/40">•</span>
-          <span className="font-mono text-[11px] text-[var(--color-app-muted)] font-medium">v2.1.2</span>
-        </div>
-
-        <div className="relative z-10 group overflow-hidden pt-2 w-full flex items-center justify-center gap-1.5 text-xs text-[var(--color-app-muted)]">
+        <a
+          href="https://github.com/deggydev"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="relative z-10 group w-full inline-flex items-center justify-center gap-1 whitespace-nowrap text-[10px] text-[var(--color-app-muted)] hover:text-[var(--color-app-primary)] transition-colors"
+          title="GitHub @deggydev"
+        >
           <span>Hecho con</span>
-          <Icon icon="mdi:heart" className="text-rose-500 text-xs inline animate-pulse" />
-          <span className="relative font-extrabold tracking-wider text-[var(--color-app-primary)] uppercase">
+          <Icon icon="mdi:heart" className="text-rose-500 text-xs animate-pulse group-hover:scale-125 transition-transform" />
+          <span>por</span>
+          <span className="font-semibold text-[var(--color-app-text)] group-hover:text-[var(--color-app-primary)] transition-colors">Diego Lipa</span>
+          <Icon icon="mdi:github" className="text-sm text-[var(--color-app-text)] group-hover:text-[var(--color-app-primary)] group-hover:scale-110 transition-all" />
+          <span className="relative overflow-hidden font-extrabold text-xs tracking-wider text-[var(--color-app-primary)] uppercase">
             D E G G Y
-            <span className="pointer-events-none absolute top-0 left-[-50%] h-full w-1/2 -skew-x-12 bg-white/40 translate-x-[-100%] group-hover:translate-x-[300%] transition-transform duration-1000 ease-in-out" />
+            <span className="deggy-mirror-shine pointer-events-none absolute top-0 left-0 h-full w-1/3 bg-white/50" />
           </span>
-        </div>
+        </a>
       </div>
     </aside>
   );

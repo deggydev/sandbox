@@ -306,7 +306,25 @@ mark {
   box-shadow: 0 0 0 3px var(--color-app-primary), 0 10px 25px -5px rgba(0,0,0,0.25);
 }
 
+@keyframes deggy-mirror-shine {
+  0% {
+    transform: translateX(-180%) skewX(-12deg);
+  }
+  100% {
+    transform: translateX(420%) skewX(-12deg);
+  }
+}
+
+.deggy-mirror-shine {
+  animation: deggy-mirror-shine 3.2s linear infinite;
+}
+
 @media (prefers-reduced-motion: reduce) {
+  .deggy-mirror-shine {
+    animation: none;
+    opacity: 0;
+  }
+
   .overview-backdrop,
   .overview-card {
     animation: none;
