@@ -4,14 +4,15 @@ interface KeyboardNavProps {
   onNext: () => void;
   onPrev: () => void;
   onFullscreenToggle: () => void;
+  onOverview: () => void;
   onExit: () => void;
 }
 
-export function useKeyboardNavigation({ onNext, onPrev, onFullscreenToggle, onExit }: KeyboardNavProps) {
+export function useKeyboardNavigation({ onNext, onPrev, onFullscreenToggle, onOverview, onExit }: KeyboardNavProps) {
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      // Ignore if user is typing in an input
-      if (['INPUT', 'TEXTAREA'].includes((e.target as HTMLElement).tagName)) return;
+      const target = e.target as HTMLElement;
+      if (['INPUT', 'TEXTAREA', 'SELECT', 'BUTTON'].includes(target.tagName) || target.isContentEditable) return;
 
       switch (e.key) {
         case 'ArrowRight':
@@ -29,6 +30,11 @@ export function useKeyboardNavigation({ onNext, onPrev, onFullscreenToggle, onEx
         case 'F':
           e.preventDefault();
           onFullscreenToggle();
+          break;
+        case 'g':
+        case 'G':
+          e.preventDefault();
+          onOverview();
           break;
         case 'Escape':
           if (!document.fullscreenElement) {

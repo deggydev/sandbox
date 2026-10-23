@@ -24,6 +24,10 @@ export function PresentationPlayer({ slides, courseCode, contextTitle }: Present
   const { currentIndex, nextSlide, previousSlide, goToSlide, totalSlides } = usePresentation(slides.length);
 
   const handleExit = () => {
+    if (overviewOpen) {
+      setOverviewOpen(false);
+      return;
+    }
     navigate(-1);
   };
 
@@ -39,6 +43,7 @@ export function PresentationPlayer({ slides, courseCode, contextTitle }: Present
     onNext: nextSlide,
     onPrev: previousSlide,
     onFullscreenToggle: handleFullscreenToggle,
+    onOverview: () => setOverviewOpen(true),
     onExit: handleExit
   });
 
@@ -113,8 +118,8 @@ export function PresentationPlayer({ slides, courseCode, contextTitle }: Present
       className="relative w-full h-full min-h-screen lg:min-h-0 flex items-center justify-center cursor-default select-none overflow-hidden"
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
-      onContextMenu={(e) => e.preventDefault()} // Disable right click
-      onCopy={(e) => e.preventDefault()} // Disable copying
+      role="application"
+      aria-label="Reproductor de presentacion"
     >
       <PresentationFrame
         headerRight={
@@ -128,7 +133,9 @@ export function PresentationPlayer({ slides, courseCode, contextTitle }: Present
         footerLeft={courseCode}
         footerRight={`Diapositiva ${currentIndex + 1} de ${totalSlides}`}
       >
-        <SlideRenderer slide={currentSlideData} />
+        <div key={currentIndex} className="slide-enter flex-1 flex flex-col min-h-0">
+          <SlideRenderer slide={currentSlideData} />
+        </div>
       </PresentationFrame>
 
       <PresentationControls
@@ -136,6 +143,7 @@ export function PresentationPlayer({ slides, courseCode, contextTitle }: Present
         onPrev={previousSlide}
         onExit={handleExit}
         onOverview={() => setOverviewOpen(true)}
+        onGoTo={goToSlide}
         currentIndex={currentIndex}
         totalSlides={totalSlides}
         isVisible={controlsVisible}
@@ -155,4 +163,3 @@ export function PresentationPlayer({ slides, courseCode, contextTitle }: Present
     </div>
   );
 }
-

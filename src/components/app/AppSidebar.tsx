@@ -65,7 +65,7 @@ export function AppSidebar() {
   const currentCourse = mockCourses.find(c => c.id === currentCourseId) || mockCourses[0];
 
   return (
-    <aside className="w-[17.5rem] border-r border-[var(--color-app-border)] bg-[var(--color-app-surface)] h-full hidden md:flex flex-col overflow-hidden transition-colors duration-200">
+    <aside className="app-sidebar w-[17.5rem] border-r border-[var(--color-app-border)] bg-[var(--color-app-surface)] h-full hidden md:flex flex-col overflow-hidden transition-colors duration-200">
       <div className="h-16 flex items-center px-6 border-b border-[var(--color-app-border)] relative overflow-hidden">
         <div className="absolute top-0 right-0 w-12 h-12 border-l border-b border-[var(--color-app-primary)]/10 rounded-bl-[2rem]" />
         <AppLogo />

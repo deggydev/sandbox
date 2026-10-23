@@ -24,18 +24,33 @@ const typeLabels: Record<string, { icon: string; label: string }> = {
 
 export function SlideOverview({ slides, currentIndex, onSelect, onClose }: SlideOverviewProps) {
   const activeRef = useRef<HTMLButtonElement>(null);
+  const closeRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     activeRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
   }, [currentIndex]);
+
+  useEffect(() => {
+    closeRef.current?.focus();
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        event.preventDefault();
+        onClose();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [onClose]);
 
   return (
     <div
       className="overview-backdrop fixed inset-0 z-[60] bg-[var(--color-app-bg)]/95 backdrop-blur-md flex flex-col p-4 sm:p-6 md:p-10"
       role="dialog"
       aria-modal="true"
-      aria-label="Vista general de diapositivas"
-      onClick={onClose}
+      aria-labelledby="overview-title"
+      onClick={(event) => {
+        if (event.target === event.currentTarget) onClose();
+      }}
     >
       {/* Decorative watermark */}
       <div className="absolute -right-10 -bottom-14 text-[8rem] sm:text-[12rem] text-[var(--color-app-primary)] opacity-[0.03] rotate-12 pointer-events-none select-none font-mono font-black">
@@ -49,7 +64,7 @@ export function SlideOverview({ slides, currentIndex, onSelect, onClose }: Slide
             <Icon icon="mdi:view-grid-outline" className="text-xl sm:text-2xl" />
           </div>
           <div>
-            <h2 className="text-lg sm:text-2xl md:text-3xl font-bold text-[var(--color-app-text)]">
+            <h2 id="overview-title" className="text-lg sm:text-2xl md:text-3xl font-bold text-[var(--color-app-text)]">
               Vista general
             </h2>
             <p className="text-[10px] sm:text-xs text-[var(--color-app-muted)] font-medium mt-0.5">
@@ -62,6 +77,8 @@ export function SlideOverview({ slides, currentIndex, onSelect, onClose }: Slide
             Esc para cerrar
           </span>
           <button
+            ref={closeRef}
+            type="button"
             onClick={onClose}
             className="group flex items-center gap-1.5 px-3 py-1.5 sm:px-4 sm:py-2 rounded-full bg-[var(--color-app-surface-sec)] text-[var(--color-app-text)] hover:bg-[var(--color-app-primary)] hover:text-white transition-all duration-200 text-xs sm:text-sm font-semibold shadow-sm hover:shadow-md hover:-translate-y-0.5"
           >
@@ -83,6 +100,7 @@ export function SlideOverview({ slides, currentIndex, onSelect, onClose }: Slide
               <button
                 ref={isActive ? activeRef : null}
                 key={slide.id || index}
+                type="button"
                 onClick={(e) => {
                   e.stopPropagation();
                   onSelect(index);
@@ -92,6 +110,7 @@ export function SlideOverview({ slides, currentIndex, onSelect, onClose }: Slide
                     ? 'overview-active-ring bg-[var(--color-app-primary)] text-white border-[var(--color-app-primary)] scale-[1.02]'
                     : 'bg-[var(--color-app-surface)] border-[var(--color-app-border)] hover:border-[var(--color-app-primary)] hover:bg-[var(--color-app-surface-sec)]'
                 }`}
+                aria-current={isActive ? 'step' : undefined}
               >
                 <span className={`overview-number inline-flex items-center justify-center text-[10px] sm:text-xs font-black uppercase tracking-wider mb-2 px-2 py-1 rounded-md ${
                   isActive ? 'bg-white/20 text-white' : 'bg-[var(--color-app-primary)]/10 text-[var(--color-app-primary)] group-hover:bg-[var(--color-app-primary)]/20'

@@ -1,0 +1,423 @@
+{
+  "meta": {
+    "title": "Why wash your hands?",
+    "fps": 30,
+    "theme": "meadow",
+    "lang": "en",
+    "seed": "wash-hands"
+  },
+  "scenes": [
+    {
+      "id": "title",
+      "type": "paper",
+      "dur": 3.6,
+      "confetti": 7,
+      "text": {
+        "lines": [
+          "Why wash",
+          "your hands?"
+        ],
+        "strips": true,
+        "stripColors": [
+          "#FFFFFF",
+          "#FBE3DA",
+          "#E5F1DC"
+        ],
+        "align": "center",
+        "x": 960,
+        "y": 540,
+        "anchor": "middle",
+        "size": 128
+      },
+      "props": [
+        {
+          "type": "hand",
+          "x": 400,
+          "y": 300,
+          "h": 190,
+          "rotate": -12,
+          "at": 0.2
+        },
+        {
+          "type": "soap",
+          "x": 1520,
+          "y": 300,
+          "h": 120,
+          "at": 0.35
+        },
+        {
+          "type": "bubbles",
+          "x": 1480,
+          "y": 830,
+          "h": 120,
+          "at": 0.5
+        },
+        {
+          "type": "germ",
+          "x": 420,
+          "y": 830,
+          "h": 110,
+          "float": 8,
+          "at": 0.65
+        }
+      ]
+    },
+    {
+      "id": "touch",
+      "type": "world",
+      "dur": 4.4,
+      "backdrop": "city",
+      "text": {
+        "lines": [
+          "Every day, your hands",
+          "touch **a lot**."
+        ],
+        "x": 140,
+        "y": 140,
+        "size": 92
+      },
+      "props": [
+        {
+          "type": "door",
+          "x": 1650,
+          "h": 300,
+          "at": 0.4
+        },
+        {
+          "type": "bench",
+          "x": 1340,
+          "h": 110,
+          "at": 0.6
+        },
+        {
+          "type": "bicycle",
+          "x": 1020,
+          "h": 150,
+          "at": 0.8
+        },
+        {
+          "type": "person",
+          "x": 1200,
+          "h": 286,
+          "color": "#E25B4B",
+          "pose": "wave",
+          "at": 1.0
+        },
+        {
+          "type": "phone",
+          "x": 1460,
+          "y": 500,
+          "h": 110,
+          "float": 8,
+          "at": 1.3
+        }
+      ]
+    },
+    {
+      "id": "ride",
+      "type": "paper",
+      "dur": 4.8,
+      "transition": "push",
+      "text": {
+        "lines": [
+          "Germs hitch",
+          "**a ride**."
+        ],
+        "body": "Handles, phones and shared toys\npass them from hand to hand.",
+        "x": 150,
+        "y": 330,
+        "size": 100
+      },
+      "props": [
+        {
+          "type": "door",
+          "x": 1200,
+          "y": 560,
+          "h": 432,
+          "at": 0.3
+        },
+        {
+          "type": "hand",
+          "x": 1560,
+          "y": 560,
+          "h": 351,
+          "rotate": 8,
+          "at": 0.6
+        },
+        {
+          "type": "germ",
+          "x": 1270,
+          "y": 580,
+          "h": 94,
+          "at": 1.2
+        },
+        {
+          "type": "germ",
+          "x": 1530,
+          "y": 470,
+          "h": 108,
+          "at": 1.5,
+          "color": "#B9A6E0"
+        },
+        {
+          "type": "germ",
+          "x": 1640,
+          "y": 640,
+          "h": 81,
+          "at": 1.8,
+          "color": "#F2A7B5"
+        }
+      ]
+    },
+    {
+      "id": "spread",
+      "type": "steps",
+      "dur": 4.6,
+      "transition": "push",
+      "text": {
+        "lines": [
+          "How a cold gets around"
+        ],
+        "align": "center",
+        "x": 960,
+        "y": 170,
+        "size": 64
+      },
+      "steps": [
+        {
+          "prop": "door",
+          "label": "Touch,",
+          "color": "#2E8C7C"
+        },
+        {
+          "prop": "hand",
+          "label": "carry,",
+          "color": "#EDB33F"
+        },
+        {
+          "prop": "apple",
+          "label": "eat,",
+          "color": "#E25B4B"
+        },
+        {
+          "prop": "germ",
+          "label": "sick.",
+          "color": "#27406E"
+        }
+      ],
+      "caption": "Germs get in when hands touch eyes, nose or mouth."
+    },
+    {
+      "id": "soap",
+      "type": "world",
+      "dur": 4.6,
+      "transition": "push",
+      "card": {
+        "n": "01",
+        "kicker": "Soap",
+        "title": "Soap breaks germs loose",
+        "body": "It lifts dirt and germs off your skin so water can rinse them away.",
+        "color": "#2E8C7C",
+        "x": 120,
+        "y": 320,
+        "w": 640
+      },
+      "props": [
+        {
+          "type": "sink",
+          "x": 1380,
+          "h": 260,
+          "at": 0.4
+        },
+        {
+          "type": "tap",
+          "x": 1360,
+          "y": 640,
+          "h": 170,
+          "at": 0.6
+        },
+        {
+          "type": "soap",
+          "x": 1640,
+          "y": 870,
+          "h": 130,
+          "at": 0.9
+        },
+        {
+          "type": "bubbles",
+          "x": 1520,
+          "y": 470,
+          "h": 150,
+          "at": 1.2
+        },
+        {
+          "type": "tree",
+          "x": 1780,
+          "h": 360,
+          "depth": 0.6,
+          "at": 0.5
+        }
+      ],
+      "theme": "spring"
+    },
+    {
+      "id": "time",
+      "type": "paper",
+      "dur": 4.6,
+      "card": {
+        "n": "02",
+        "kicker": "Time",
+        "title": "Scrub for 20 seconds",
+        "body": "Palms, backs, between fingers and under the nails.",
+        "color": "#E25B4B",
+        "x": 120,
+        "y": 320,
+        "w": 640
+      },
+      "props": [
+        {
+          "type": "clock",
+          "x": 1260,
+          "y": 520,
+          "h": 351,
+          "text": "20s",
+          "at": 0.4
+        },
+        {
+          "type": "hand",
+          "x": 1590,
+          "y": 560,
+          "h": 378,
+          "rotate": 6,
+          "at": 0.7
+        },
+        {
+          "type": "bubbles",
+          "x": 1600,
+          "y": 380,
+          "h": 148,
+          "at": 1.0
+        }
+      ],
+      "transition": "push"
+    },
+    {
+      "id": "when",
+      "type": "world",
+      "dur": 4.6,
+      "card": {
+        "n": "03",
+        "kicker": "When",
+        "title": "Before food, after the toilet",
+        "body": "And after sneezing, coughing or playing outside.",
+        "color": "#27406E",
+        "x": 120,
+        "y": 320,
+        "w": 660
+      },
+      "props": [
+        {
+          "type": "house",
+          "x": 1500,
+          "h": 300,
+          "depth": 0.6,
+          "at": 0.4
+        },
+        {
+          "type": "tree",
+          "x": 1180,
+          "h": 380,
+          "fruit": true,
+          "at": 0.6
+        },
+        {
+          "type": "apple",
+          "x": 1700,
+          "y": 880,
+          "h": 110,
+          "at": 0.9
+        },
+        {
+          "type": "flower",
+          "x": 1800,
+          "h": 150,
+          "color": "#F08A74",
+          "at": 1.0
+        }
+      ]
+    },
+    {
+      "id": "close",
+      "type": "world",
+      "dur": 4.6,
+      "transition": "fade",
+      "theme": "spring",
+      "camera": {
+        "zoom": [
+          1,
+          1.05
+        ]
+      },
+      "text": {
+        "lines": [
+          "Clean hands,",
+          "**healthy** days."
+        ],
+        "body": "Fewer germs for you and for everyone you meet.",
+        "x": 140,
+        "y": 150,
+        "size": 100
+      },
+      "props": [
+        {
+          "type": "bunting",
+          "x": 1350,
+          "y": 540,
+          "span": 720,
+          "enter": "drop",
+          "at": 0.3
+        },
+        {
+          "type": "person",
+          "x": 1100,
+          "h": 286,
+          "color": "#2E8C7C",
+          "pose": "wave",
+          "at": 0.6
+        },
+        {
+          "type": "person",
+          "x": 1300,
+          "h": 234,
+          "color": "#EDB33F",
+          "hair": "#8C5F3C",
+          "at": 0.75
+        },
+        {
+          "type": "person",
+          "x": 1520,
+          "h": 312,
+          "color": "#E25B4B",
+          "at": 0.9
+        },
+        {
+          "type": "tree",
+          "x": 1760,
+          "h": 400,
+          "depth": 0.6,
+          "at": 0.5
+        }
+      ]
+    },
+    {
+      "id": "end",
+      "type": "end",
+      "dur": 3.6,
+      "transition": "wipe",
+      "prop": "soap",
+      "name": "Wash your hands",
+      "tagline": "it only takes 20 seconds",
+      "propSize": 210
+    }
+  ]
+}

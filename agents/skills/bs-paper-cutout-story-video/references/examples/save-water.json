@@ -1,0 +1,434 @@
+{
+  "meta": {
+    "title": "Why save water?",
+    "fps": 30,
+    "theme": "meadow",
+    "lang": "en",
+    "seed": "save-water"
+  },
+  "scenes": [
+    {
+      "id": "title",
+      "type": "paper",
+      "dur": 3.6,
+      "paper": "#E7EFEF",
+      "confetti": 7,
+      "text": {
+        "lines": [
+          "Why save",
+          "water?"
+        ],
+        "strips": true,
+        "stripColors": [
+          "#FFFFFF",
+          "#DDEFF6",
+          "#FFFFFF"
+        ],
+        "align": "center",
+        "x": 960,
+        "y": 540,
+        "anchor": "middle",
+        "size": 132
+      },
+      "props": [
+        {
+          "type": "raincloud",
+          "x": 420,
+          "y": 260,
+          "h": 170,
+          "at": 0.2
+        },
+        {
+          "type": "drop",
+          "x": 1480,
+          "y": 280,
+          "h": 140,
+          "face": true,
+          "float": 10,
+          "at": 0.35
+        },
+        {
+          "type": "tap",
+          "x": 1500,
+          "y": 820,
+          "h": 150,
+          "at": 0.5
+        },
+        {
+          "type": "glass",
+          "x": 420,
+          "y": 820,
+          "h": 140,
+          "at": 0.65
+        }
+      ]
+    },
+    {
+      "id": "rain",
+      "type": "world",
+      "dur": 4.4,
+      "backdrop": "mountains",
+      "text": {
+        "kicker": "Where water comes from",
+        "lines": [
+          "It falls as",
+          "**rain** and **snow**."
+        ],
+        "x": 140,
+        "y": 130,
+        "size": 96
+      },
+      "props": [
+        {
+          "type": "raincloud",
+          "x": 1180,
+          "y": 250,
+          "h": 180,
+          "float": 6,
+          "at": 1.0
+        },
+        {
+          "type": "raincloud",
+          "x": 1560,
+          "y": 330,
+          "h": 140,
+          "float": 6,
+          "at": 1.2
+        },
+        {
+          "type": "pine",
+          "x": 1700,
+          "h": 300,
+          "depth": 0.6,
+          "at": 1.4
+        },
+        {
+          "type": "pine",
+          "x": 1790,
+          "h": 240,
+          "depth": 0.6,
+          "at": 1.5
+        }
+      ]
+    },
+    {
+      "id": "river",
+      "type": "world",
+      "dur": 4.2,
+      "backdrop": "mountains",
+      "text": {
+        "lines": [
+          "Rivers carry it",
+          "to a **reservoir**."
+        ],
+        "x": 140,
+        "y": 140,
+        "size": 96
+      },
+      "props": [
+        {
+          "type": "river",
+          "x": 1260,
+          "y": 975,
+          "h": 110,
+          "span": 1200,
+          "enter": "slide",
+          "from": 2600,
+          "at": 0.3,
+          "still": true
+        },
+        {
+          "type": "tree",
+          "x": 1640,
+          "h": 300,
+          "depth": 0.6,
+          "at": 0.6
+        },
+        {
+          "type": "bush",
+          "x": 860,
+          "h": 110,
+          "at": 0.8
+        },
+        {
+          "type": "boat",
+          "x": 1500,
+          "y": 930,
+          "h": 150,
+          "at": 1.0
+        }
+      ]
+    },
+    {
+      "id": "clean",
+      "type": "world",
+      "dur": 4.4,
+      "backdrop": "city",
+      "card": {
+        "n": "01",
+        "kicker": "Clean",
+        "title": "The water works",
+        "body": "Water is filtered and cleaned until it is safe to drink.",
+        "color": "#2E8C7C",
+        "x": 120,
+        "y": 300,
+        "w": 600
+      },
+      "props": [
+        {
+          "type": "waterworks",
+          "x": 1380,
+          "h": 300,
+          "enter": "grow",
+          "at": 0.5
+        },
+        {
+          "type": "drop",
+          "x": 1720,
+          "y": 560,
+          "h": 100,
+          "face": true,
+          "float": 10,
+          "at": 1.0
+        }
+      ]
+    },
+    {
+      "id": "pipes",
+      "type": "world",
+      "dur": 4.4,
+      "backdrop": "city",
+      "card": {
+        "n": "02",
+        "kicker": "Deliver",
+        "title": "Under the streets",
+        "body": "Pumps push it through pipes to every home and every tap.",
+        "color": "#27406E",
+        "x": 120,
+        "y": 300,
+        "w": 600
+      },
+      "props": [
+        {
+          "type": "pipe",
+          "x": 1300,
+          "y": 1010,
+          "h": 60,
+          "span": 1200,
+          "enter": "slide",
+          "from": 2600,
+          "at": 0.4
+        },
+        {
+          "type": "house",
+          "x": 1180,
+          "h": 260,
+          "at": 0.6
+        },
+        {
+          "type": "house",
+          "x": 1540,
+          "h": 220,
+          "color": "#F3E3C6",
+          "roof": "#2E8C7C",
+          "at": 0.75
+        }
+      ]
+    },
+    {
+      "id": "journey",
+      "type": "steps",
+      "dur": 4.6,
+      "transition": "push",
+      "paper": "#E7EFEF",
+      "text": {
+        "lines": [
+          "A long trip to your tap"
+        ],
+        "align": "center",
+        "x": 960,
+        "y": 170,
+        "size": 64
+      },
+      "steps": [
+        {
+          "prop": "raincloud",
+          "label": "Sky,",
+          "color": "#76B8D4"
+        },
+        {
+          "prop": "mountain",
+          "label": "river,",
+          "color": "#5FAE55"
+        },
+        {
+          "prop": "waterworks",
+          "label": "plant,",
+          "color": "#2E8C7C"
+        },
+        {
+          "prop": "tap",
+          "label": "home.",
+          "color": "#27406E"
+        }
+      ],
+      "caption": "Cleaning and pumping it takes energy every single day."
+    },
+    {
+      "id": "fresh",
+      "type": "paper",
+      "dur": 4.4,
+      "transition": "push",
+      "paper": "#E7EFEF",
+      "text": {
+        "kicker": "Why it matters",
+        "lines": [
+          "Less than 1% of Earth's water",
+          "is fresh water we can **use**."
+        ],
+        "align": "center",
+        "x": 960,
+        "y": 470,
+        "anchor": "middle",
+        "size": 76,
+        "body": "Most is salty sea water or locked in ice."
+      },
+      "props": [
+        {
+          "type": "drop",
+          "x": 960,
+          "y": 820,
+          "h": 148,
+          "face": true,
+          "at": 1.6
+        },
+        {
+          "type": "glass",
+          "x": 300,
+          "y": 300,
+          "h": 162,
+          "at": 0.4,
+          "rotate": -8
+        },
+        {
+          "type": "raincloud",
+          "x": 1640,
+          "y": 250,
+          "h": 162,
+          "at": 0.6
+        }
+      ]
+    },
+    {
+      "id": "habits",
+      "type": "cards",
+      "dur": 5.6,
+      "transition": "push",
+      "y": 320,
+      "at": 0.8,
+      "stagger": 0.45,
+      "text": {
+        "lines": [
+          "Small habits add up"
+        ],
+        "align": "center",
+        "x": 960,
+        "y": 140,
+        "size": 66
+      },
+      "cards": [
+        {
+          "prop": "tap",
+          "title": "Tap off",
+          "body": "while you brush your teeth.",
+          "bg": "#DDEDF2"
+        },
+        {
+          "prop": "clock",
+          "propOptions": {
+            "text": "5 min"
+          },
+          "title": "Short showers",
+          "body": "a few minutes is plenty.",
+          "bg": "#FBE2DA"
+        },
+        {
+          "prop": "pot",
+          "title": "Reuse it",
+          "body": "rinse water can water plants.",
+          "bg": "#E3F0DA"
+        }
+      ]
+    },
+    {
+      "id": "close",
+      "type": "world",
+      "dur": 4.4,
+      "transition": "fade",
+      "backdrop": "mountains",
+      "camera": {
+        "zoom": [
+          1,
+          1.05
+        ]
+      },
+      "text": {
+        "lines": [
+          "Every drop saved keeps",
+          "the **river** flowing."
+        ],
+        "x": 140,
+        "y": 160,
+        "size": 88
+      },
+      "props": [
+        {
+          "type": "river",
+          "x": 1100,
+          "y": 975,
+          "h": 110,
+          "span": 1600,
+          "enter": "none",
+          "still": true
+        },
+        {
+          "type": "tree",
+          "x": 1600,
+          "h": 420,
+          "fruit": true,
+          "enter": "grow",
+          "at": 0.4
+        },
+        {
+          "type": "flower",
+          "x": 1780,
+          "h": 130,
+          "color": "#F08A74",
+          "at": 0.8
+        },
+        {
+          "type": "bird",
+          "x": 1180,
+          "y": 260,
+          "h": 24,
+          "float": 10,
+          "at": 1.0
+        }
+      ]
+    },
+    {
+      "id": "end",
+      "type": "end",
+      "dur": 3.6,
+      "transition": "wipe",
+      "paper": "#E7EFEF",
+      "prop": "drop",
+      "propOptions": {
+        "face": true
+      },
+      "name": "Save water",
+      "tagline": "every drop counts",
+      "propSize": 210
+    }
+  ]
+}

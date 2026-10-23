@@ -10,7 +10,7 @@ export function AppHeader() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   return (
-    <header className="h-16 border-b border-[var(--color-app-border)] bg-[var(--color-app-surface)] flex items-center px-4 justify-between sticky top-0 z-40">
+    <header className="app-header h-16 border-b border-[var(--color-app-border)] bg-[var(--color-app-surface)] flex items-center px-4 justify-between sticky top-0 z-40">
       <div className="flex items-center gap-4 min-w-0">
         <IconButton 
           className="md:hidden" 

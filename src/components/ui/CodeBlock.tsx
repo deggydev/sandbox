@@ -32,7 +32,19 @@ export function CodeBlock({
 
   const handleCopy = async () => {
     try {
-      await navigator.clipboard.writeText(code);
+      if (navigator.clipboard?.writeText) {
+        await navigator.clipboard.writeText(code);
+      } else {
+        const area = document.createElement('textarea');
+        area.value = code;
+        area.setAttribute('readonly', '');
+        area.style.position = 'fixed';
+        area.style.opacity = '0';
+        document.body.appendChild(area);
+        area.select();
+        document.execCommand('copy');
+        area.remove();
+      }
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     } catch {
@@ -41,9 +53,9 @@ export function CodeBlock({
   };
 
   return (
-    <div className={`w-full rounded-xl sm:rounded-2xl overflow-hidden shadow-2xl border border-[#3e3d32] bg-[#272822] flex flex-col shrink-0 ${className}`}>
+    <div className={`code-panel w-full rounded-xl sm:rounded-2xl overflow-hidden shadow-2xl border flex flex-col shrink-0 ${className}`}>
       {/* Header bar estilo ventana de código Monokai */}
-      <div className="bg-[#1e1f1c] px-3.5 sm:px-5 py-2 border-b border-[#3e3d32] flex items-center justify-between gap-2 shrink-0">
+      <div className="code-panel-header px-3.5 sm:px-5 py-2.5 border-b flex items-center justify-between gap-2 shrink-0">
         <div className="flex items-center gap-2 sm:gap-3">
           <div className="flex items-center gap-1.5">
             <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-red-500 shadow-sm" />
@@ -51,12 +63,12 @@ export function CodeBlock({
             <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-green-500 shadow-sm" />
           </div>
           {title ? (
-            <span className="ml-1 sm:ml-2 text-xs sm:text-sm font-bold text-gray-300 uppercase tracking-wider flex items-center gap-1.5">
+              <span className="ml-1 sm:ml-2 text-xs sm:text-sm font-bold text-[var(--color-app-text)]/80 uppercase tracking-wider flex items-center gap-1.5">
               <Icon icon="mdi:code-braces" className="text-base text-[var(--color-app-primary)]" />
               {title}
             </span>
           ) : (
-            <span className="ml-1 sm:ml-2 text-xs sm:text-sm font-bold text-yellow-300/90 uppercase tracking-widest font-mono">
+              <span className="ml-1 sm:ml-2 text-xs sm:text-sm font-bold text-[var(--color-app-secondary)] uppercase tracking-widest font-mono">
               {language}
             </span>
           )}
@@ -65,18 +77,19 @@ export function CodeBlock({
         {/* Action buttons (Copy) */}
         <div className="flex items-center gap-2">
           {title && (
-            <span className="hidden sm:inline-block text-[11px] font-bold text-yellow-300/80 uppercase tracking-widest font-mono mr-1">
+              <span className="hidden sm:inline-block text-[11px] font-bold text-[var(--color-app-secondary)] uppercase tracking-widest font-mono mr-1">
               {language}
             </span>
           )}
           {copyable && (
             <button
+              type="button"
               onClick={handleCopy}
               title="Copiar código"
-              className="px-2 py-1 rounded-md text-xs font-medium text-gray-400 hover:text-white bg-white/5 hover:bg-white/10 transition-all flex items-center gap-1 border border-white/5"
+              className="min-h-9 px-2.5 py-1 rounded-md text-xs font-semibold text-[var(--color-app-muted)] hover:text-[var(--color-app-text)] bg-white/5 hover:bg-white/10 transition-all flex items-center gap-1 border border-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-app-primary)]"
             >
-              <Icon icon={copied ? 'mdi:check' : 'mdi:content-copy'} className={copied ? 'text-emerald-400' : 'text-gray-400'} />
-              <span className="text-[11px] hidden sm:inline">{copied ? 'Copiado' : 'Copiar'}</span>
+              <Icon icon={copied ? 'mdi:check' : 'mdi:content-copy'} className={copied ? 'text-emerald-400' : 'text-[var(--color-app-muted)]'} />
+              <span className="text-[11px] hidden sm:inline" aria-live="polite">{copied ? 'Copiado' : 'Copiar'}</span>
             </button>
           )}
         </div>

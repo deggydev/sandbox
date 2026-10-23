@@ -1,6 +1,6 @@
 ---
 name: planificacion-semanal-clase
-description: Úsalo cuando el usuario envía uno o varios pantallazos de un sílabo, plan curricular o matriz de contenidos por semana y necesita convertir esa información en una estructura académica semanal con: tareas HT, resumen de la semana, parte teórica y parte práctica. Debe respetar estrictamente los contenidos visibles en las columnas Operaciones, Conocimientos Tecnológicos, Conocimientos Complementarios y Formación Virtual, sin ampliar innecesariamente. Palabras gatillo: semana, pantallazo, sílabo, plan de clase, parte teórica, parte práctica, resumen semanal, tarea HT, contenidos de aprendizaje, operaciones, conocimientos tecnológicos, conocimientos complementarios.
+description: Úsalo como skill principal cuando el usuario envía pantallazos o el PDF completo de un sílabo, plan curricular o matriz de contenidos por semana y necesita convertirlo en planificación académica, PDFs y presentaciones teóricas y prácticas. Debe respetar estrictamente los contenidos visibles en Operaciones, Conocimientos Tecnológicos, Conocimientos Complementarios y Formación Virtual. Palabras gatillo: semana, PDF curricular, pantallazo, sílabo, plan de clase, parte teórica, parte práctica, resumen semanal, tarea HT, contenidos de aprendizaje, operaciones, conocimientos tecnológicos, conocimientos complementarios.
 nivel: completo
 compat: [claude, codex, gpt, deepseek, glm, nemotron, ollama-pequeno]
 ---
@@ -57,17 +57,19 @@ La salida debe ser suficientemente detallada para servir como guía docente, per
    - Conocimientos Tecnológicos.
    - Conocimientos Complementarios.
 4. La parte práctica debe servir para practicar exactamente los contenidos de la teoría.
-5. No agregues proyectos, ejercicios o tecnologías que no aparezcan en el material, salvo que sean imprescindibles para aplicar un contenido explícito.
-6. Los objetivos específicos deben ser pocos, concretos y alineados con el objetivo general.
-7. Usa entre 2 y 4 objetivos específicos por bloque. Lo recomendado es 3 o 4.
-8. No uses emojis.
-9. No uses viñetas dentro de los objetivos específicos, temas teóricos ni prácticas y actividades.
-10. Cada objetivo, tema o actividad debe ir en una línea independiente.
-11. Si hay varias tareas HT en una semana, deben aparecer en una sola línea, separadas por coma.
-12. Mantén la terminología del sílabo. No reemplaces nombres técnicos por otros distintos si no es necesario.
-13. La redacción debe ser académica, clara, natural y fácil de entender.
-14. El resumen debe integrar teoría y práctica, pero separadas con subtítulos.
-15. No expliques contenidos como si fuera una clase desarrollada. Solo indica qué se va a abordar y qué se va a realizar.
+5. Cada bloque de presentación debe incluir ejemplos visuales aplicados, no solo teoría descriptiva.
+6. Usa diagramas, flujos, tablas comparativas y casos guiados cuando el contenido tenga relaciones o procesos.
+7. No agregues proyectos, ejercicios o tecnologías que no aparezcan en el material, salvo que sean imprescindibles para aplicar un contenido explícito.
+8. Los objetivos específicos deben ser pocos, concretos y alineados con el objetivo general.
+9. Usa entre 2 y 4 objetivos específicos por bloque. Lo recomendado es 3 o 4.
+10. No uses emojis.
+11. No uses viñetas dentro de los objetivos específicos, temas teóricos ni prácticas y actividades.
+12. Cada objetivo, tema o actividad debe ir en una línea independiente.
+13. Si hay varias tareas HT en una semana, deben aparecer en una sola línea, separadas por coma.
+14. Mantén la terminología del sílabo. No reemplaces nombres técnicos por otros distintos si no es necesario.
+15. La redacción debe ser académica, clara, natural y fácil de entender.
+16. El resumen debe integrar teoría y práctica, pero separadas con subtítulos.
+17. No expliques contenidos como si fuera una clase desarrollada. Solo indica qué se va a abordar y qué se va a realizar.
 16. No añadas conclusiones, recomendaciones, emojis, frases motivacionales ni comentarios fuera de la estructura solicitada.
 
 ---
@@ -527,3 +529,264 @@ Reglas:
 - Temas y actividades: una línea por elemento.
 - Mantener códigos HT y número de semana exactamente.
 - Solo agregar un contenido extra si es imprescindible para comprender uno ya presente.
+
+---
+
+## Orquestación prioritaria de skills del proyecto
+
+Esta skill es punto de entrada cuando usuario entrega un PDF curricular o pantallazos de planificación.
+No delegues directamente a una skill genérica antes de extraer y validar el currículo.
+
+### Orden obligatorio
+
+Ejecuta este orden:
+
+1. `planificacion-semanal-clase`
+2. `senati-planes-pdf`
+3. `senati-presentaciones-interactivas`
+4. `image-to-editable-ppt`
+5. `bs-paper-cutout-story-video`
+
+La primera skill es esta skill principal.
+Las posiciones 2 y 3 son skills propias del proyecto y tienen prioridad máxima para la salida final.
+Las posiciones 4 y 5 son skills de apoyo y solo se usan cuando una tarea concreta lo exige.
+
+### Flujo obligatorio después de recibir PDF
+
+1. Leer todas las páginas del PDF.
+2. Extraer presentación del curso, Cuadro Programa y Hoja de Programación.
+3. Relacionar cada tarea HT con sus operaciones exactas.
+4. Construir planificación semanal con teoría y práctica.
+5. Ejecutar `senati-planes-pdf` para generar dos planes por semana:
+   - Plan teórico.
+   - Plan práctico o de taller.
+6. Ejecutar `senati-presentaciones-interactivas` para generar dos bloques por semana:
+   - Presentación teórica.
+   - Presentación práctica o de taller.
+7. Usar `image-to-editable-ppt` solo si usuario solicita reconstruir un PDF, imagen o PPT como PowerPoint editable.
+8. Usar `bs-paper-cutout-story-video` solo si usuario solicita storyboard visual, historia de recortes, assets papercut o video derivado.
+9. Validar que PDF y presentaciones usan la misma tarea, semana, operaciones y contenidos.
+
+No reemplaces las skills SENATI por las skills genéricas.
+No uses `image-to-editable-ppt` para crear las presentaciones nativas del proyecto cuando los datos ya pueden vivir en `src/data/courses/piad-*.ts`.
+No uses `bs-paper-cutout-story-video` para cambiar la identidad visual de Sandbox SENATI.
+
+### Responsabilidad de cada skill
+
+| Prioridad | Skill | Responsabilidad |
+|---|---|---|
+| 1 | `planificacion-semanal-clase` | Leer fuente, extraer currículo, relacionar tareas y operaciones, redactar planificación. |
+| 2 | `senati-planes-pdf` | Generar planes A4 teórico y práctico/taller de una sola página. |
+| 3 | `senati-presentaciones-interactivas` | Generar presentaciones teórica y práctica/taller dentro del proyecto. |
+| 4 | `image-to-editable-ppt` | Reconstruir entradas visuales como PowerPoint editable cuando se solicite. |
+| 5 | `bs-paper-cutout-story-video` | Crear storyboard, assets papercut o video cuando se solicite. |
+
+### Contrato entre skills
+
+Entrega a `senati-planes-pdf` y `senati-presentaciones-interactivas` estos datos ya validados:
+
+```text
+curso:
+  id: ...
+  nombre: ...
+  piad: ...
+nrc_teoria: ...
+  nrc_taller: ...
+semana: ...
+tareas:
+  - codigo: HT-01
+    nombre: ...
+    operaciones:
+      - codigo: HO-01
+        nombre: ...
+        tipo: nueva|repetida
+objetivo_general: ...
+objetivos_especificos: ...
+practicas: ...
+```
+
+Las dos skills SENATI deben consumir el mismo contrato.
+No permitas que PDF y presentación inventen relaciones distintas entre tarea y operación.
+
+### Condiciones de parada
+
+Detén generación final y solicita aclaración si:
+
+- Falta una página del PDF curricular.
+- No se puede leer la relación entre tarea y operación.
+- PIAD o NRC no fueron proporcionados y no aparecen en la fuente.
+- La Hoja de Programación contradice el Cuadro Programa.
+- No se puede decidir si un código es `HO` o `H0`.
+
+Puedes continuar con una marca `[ilegible en PDF]` solo cuando usuario autorice trabajar con datos incompletos.
+
+### Verificación final de la cadena
+
+- [ ] Esta skill leyó y validó fuente curricular.
+- [ ] Se generó teoría y práctica en planificación.
+- [ ] `senati-planes-pdf` generó PDF teórico y práctico.
+- [ ] `senati-presentaciones-interactivas` generó presentación teórica y práctica.
+- [ ] PDF y presentación comparten tarea y operaciones.
+- [ ] Skills genéricas solo se usaron como apoyo solicitado.
+- [ ] No se confundió PDF editable con PDF de plan de sesión.
+
+---
+
+## Extensión para currículum completo en PDF
+
+Usa este flujo cuando el usuario entregue el PDF completo del curso, no solo pantallazos.
+
+El PDF puede tener varias páginas y normalmente contiene tres bloques:
+
+1. Presentación del programa.
+2. Cuadro Programa.
+3. Hoja de Programación.
+
+Lee todas las páginas antes de crear semanas. No trabajes solo con la primera página visible.
+
+### 1. Presentación del programa
+
+Extrae y conserva estos datos cuando aparezcan:
+
+- Catálogo o periodo.
+- Nombre del curso o módulo.
+- Escuela Profesional.
+- Carrera.
+- Nivel.
+- Módulo Formativo.
+- Módulo Ocupacional.
+- Semestre.
+- Objetivo General.
+
+El usuario puede entregar por separado el código PIAD y el NRC. Pide esos valores si faltan.
+No inventes PIAD, NRC, periodo ni códigos de curso.
+
+### 2. Cuadro Programa
+
+El Cuadro Programa es fuente obligatoria para relacionar tareas y operaciones.
+
+La tabla contiene:
+
+- Filas verticales de tareas HT.
+- Columnas horizontales de operaciones.
+- Código de cada tarea.
+- Código y nombre de cada operación.
+- Celdas marcadas, sombreadas o en negrita.
+- Leyenda de Operación Nueva y Operación Repetida.
+
+Interpreta cada celda marcada como pertenencia de esa operación a la tarea de su fila.
+No asignes todas las operaciones del cuadro a todas las tareas.
+No relaciones operaciones por cercanía visual ni por orden del texto extraído.
+Usa la intersección exacta entre fila de tarea y columna de operación.
+
+Conserva para cada tarea un registro interno con esta forma:
+
+```text
+HT-01:
+  nombre: ...
+  operaciones:
+    - codigo: HO-01
+      nombre: ...
+      tipo: nueva|repetida
+    - codigo: HO-02
+      nombre: ...
+      tipo: nueva|repetida
+```
+
+El PDF puede mostrar `HO-01` con letra O o `H0-01` con número cero.
+Conserva código exactamente como aparece en el PDF.
+Si OCR no permite distinguirlos, informa la duda y no normalices silenciosamente.
+
+Las operaciones pueden aparecer como `H1`, `H2`, `H3`, `H4` en instrucciones del usuario.
+Relaciona esos nombres con códigos completos solo cuando la correspondencia sea verificable.
+
+La relación de operación debe alimentar después:
+
+- Objetivos específicos de práctica.
+- Prácticas y actividades.
+- Resumen de taller y práctica.
+- Hoja de operaciones del plan de sesión.
+
+### 3. Hoja de Programación
+
+Lee todas las páginas de la Hoja de Programación, incluidas páginas de continuación.
+
+Extrae por cada fila de semana:
+
+- Número de semana.
+- Horas T, P y V como contexto.
+- Tareas de aprendizaje.
+- Operaciones.
+- Conocimientos Tecnológicos.
+- Conocimientos Complementarios.
+- Formación Virtual.
+
+Conserva el orden original de semanas y filas.
+Si una semana contiene varias tareas, conserva cada tarea y sus operaciones correspondientes.
+No mezcles contenidos de tareas distintas.
+Si una fila continúa en otra página, únela a la misma semana antes de redactar.
+Si aparece una fila de evaluación o distribución de horas, consérvala como metadato y no la conviertas en tarea.
+
+### 4. Relación entre tareas y semanas
+
+Normalmente cada tarea corresponde a una semana.
+Verifica esa relación contra la Hoja de Programación antes de asumirla.
+
+Si una tarea ocupa varias semanas, repite la tarea solo cuando el PDF la mantenga activa en esas filas.
+Si una semana contiene varias tareas, desarrolla una sola semana con todas sus tareas en una línea.
+Mantén códigos HT exactos.
+
+### 5. Validación cruzada
+
+Antes de redactar, comprueba:
+
+- Cada tarea HT del calendario existe en el Cuadro Programa.
+- Cada operación usada pertenece a la tarea correcta.
+- Cada operación tiene código y nombre verificables.
+- Tipo nueva o repetida coincide con la leyenda del cuadro.
+- Semana de Hoja de Programación coincide con la semana redactada.
+- Operaciones, conocimientos y formación virtual pertenecen a la misma fila.
+- No se perdió texto en páginas continuadas.
+
+Si OCR mezcla columnas rotadas del Cuadro Programa, usa la imagen de la tabla para reconstruir filas y columnas.
+El texto OCR no tiene prioridad sobre la posición real de la celda marcada.
+
+### 6. Uso en salida semanal
+
+Mantén plantilla de salida existente.
+Agrega operaciones exactas solo donde corresponda:
+
+```markdown
+## Tareas: HT-01 [nombre]
+
+### Operaciones
+HO-01 [nombre], HO-02 [nombre], HO-03 [nombre]
+```
+
+Si la salida solicitada no incluye una sección Operaciones, usa esos datos dentro de Objetivos específicos, Prácticas y actividades y resumen práctico.
+No agregues una sección nueva sin solicitud del usuario.
+
+Para la Hoja de Operaciones del plan de sesión, escribe los códigos de la tarea actual en orden original.
+No uses `H1, H2 y siguientes` como sustituto si el PDF proporciona códigos completos.
+
+### 7. Datos faltantes o ilegibles
+
+Si el PDF no permite leer una operación, marca:
+
+`[operación ilegible en PDF]`
+
+Si falta PIAD o NRC, solicita esos datos al usuario.
+Si falta una página o una continuación, solicita el PDF completo antes de cerrar la planificación.
+Si el cuadro y la hoja de programación contradicen sus códigos, muestra la discrepancia y pide confirmación.
+
+### 8. Criterios adicionales de calidad
+
+- [ ] Se leyeron todas las páginas del PDF.
+- [ ] Se extrajo presentación del curso.
+- [ ] Se reconstruyó Cuadro Programa por intersección de filas y columnas.
+- [ ] Se relacionaron códigos de operación con cada tarea.
+- [ ] Se distinguieron operaciones nuevas y repetidas.
+- [ ] Se procesaron todas las páginas de Hoja de Programación.
+- [ ] Se verificó continuidad de semanas y tareas.
+- [ ] Se conservaron PIAD y NRC proporcionados por el usuario.
+- [ ] No se inventaron operaciones ni relaciones.

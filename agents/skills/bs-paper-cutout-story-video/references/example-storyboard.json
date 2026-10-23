@@ -1,0 +1,450 @@
+{
+  "meta": {
+    "title": "Sunny Lane Bakery",
+    "fps": 30,
+    "theme": "meadow",
+    "lang": "en",
+    "seed": "sunny-lane"
+  },
+  "scenes": [
+    {
+      "id": "open",
+      "type": "paper",
+      "dur": 3.4,
+      "confetti": 9,
+      "text": {
+        "lines": [
+          "Good bread",
+          "takes time."
+        ],
+        "strips": true,
+        "align": "center",
+        "x": 960,
+        "y": 560,
+        "anchor": "middle",
+        "size": 128,
+        "at": 0.35
+      },
+      "props": [
+        {
+          "type": "bread",
+          "x": 520,
+          "y": 250,
+          "h": 150,
+          "float": 6,
+          "at": 0.15,
+          "rotate": -8
+        },
+        {
+          "type": "wheat",
+          "x": 1420,
+          "y": 240,
+          "h": 230,
+          "float": 6,
+          "at": 0.3,
+          "rotate": 10
+        },
+        {
+          "type": "cup",
+          "x": 1480,
+          "y": 840,
+          "h": 170,
+          "float": 5,
+          "at": 0.5
+        },
+        {
+          "type": "heart",
+          "x": 420,
+          "y": 820,
+          "h": 90,
+          "float": 8,
+          "at": 0.65,
+          "color": "#F08A74"
+        }
+      ]
+    },
+    {
+      "id": "dawn",
+      "type": "world",
+      "dur": 3.6,
+      "camera": {
+        "zoom": [
+          1,
+          1.04
+        ]
+      },
+      "text": {
+        "kicker": "5:00 a.m.",
+        "lines": [
+          "Before sunrise,",
+          "the town is **quiet**."
+        ],
+        "x": 150,
+        "y": 130,
+        "size": 96
+      },
+      "props": [
+        {
+          "type": "house",
+          "x": 1150,
+          "h": 260,
+          "depth": 0.6,
+          "roof": "#E07A5F"
+        },
+        {
+          "type": "house",
+          "x": 1450,
+          "h": 210,
+          "depth": 0.45,
+          "color": "#F3E3C6",
+          "roof": "#2E8C7C"
+        },
+        {
+          "type": "pine",
+          "x": 1640,
+          "h": 260,
+          "depth": 0.6
+        },
+        {
+          "type": "lamp",
+          "x": 880,
+          "h": 400,
+          "enter": "rise"
+        }
+      ]
+    },
+    {
+      "id": "ride",
+      "type": "world",
+      "dur": 3.8,
+      "camera": {
+        "x": [
+          0,
+          -40
+        ],
+        "zoom": [
+          1.02,
+          1.05
+        ]
+      },
+      "text": {
+        "lines": [
+          "Mira rides to",
+          "the **bakery**."
+        ],
+        "x": 150,
+        "y": 140,
+        "size": 96,
+        "note": "same lane, every day"
+      },
+      "props": [
+        {
+          "type": "shop",
+          "x": 1440,
+          "h": 440,
+          "text": "SUNNY LANE",
+          "awning": "#E25B4B",
+          "enter": "grow",
+          "at": 0.3
+        },
+        {
+          "type": "tree",
+          "x": 1780,
+          "h": 380,
+          "depth": 0.6,
+          "at": 0.5
+        },
+        {
+          "type": "bicycle",
+          "x": 980,
+          "h": 180,
+          "enter": "walk",
+          "from": -300,
+          "walkDur": 2.4,
+          "at": 0.6,
+          "basket": true,
+          "color": "#27406E"
+        },
+        {
+          "type": "person",
+          "x": 975,
+          "y": 860,
+          "h": 200,
+          "enter": "walk",
+          "from": -305,
+          "walkDur": 2.4,
+          "at": 0.6,
+          "color": "#2E8C7C",
+          "hat": "#FFFFFF",
+          "z": -1
+        }
+      ]
+    },
+    {
+      "id": "farm",
+      "type": "world",
+      "dur": 3.6,
+      "camera": {
+        "zoom": [
+          1.05,
+          1.0
+        ]
+      },
+      "card": {
+        "n": "01",
+        "kicker": "Flour",
+        "title": "From the valley farm",
+        "body": "Milled on Tuesdays, five miles away.",
+        "color": "#5FAE55",
+        "x": 120,
+        "y": 320,
+        "w": 620
+      },
+      "props": [
+        {
+          "type": "windmill",
+          "x": 1300,
+          "h": 440,
+          "depth": 0.6,
+          "at": 0.3
+        },
+        {
+          "type": "barn",
+          "x": 1640,
+          "h": 250,
+          "depth": 0.45,
+          "at": 0.45
+        },
+        {
+          "type": "wheat",
+          "x": 1060,
+          "h": 260,
+          "enter": "grow",
+          "at": 0.7
+        },
+        {
+          "type": "wheat",
+          "x": 1190,
+          "h": 300,
+          "enter": "grow",
+          "at": 0.8
+        },
+        {
+          "type": "wheat",
+          "x": 1330,
+          "h": 250,
+          "enter": "grow",
+          "at": 0.9
+        },
+        {
+          "type": "butterfly",
+          "x": 1520,
+          "y": 620,
+          "h": 60,
+          "float": 14,
+          "at": 1.1
+        }
+      ]
+    },
+    {
+      "id": "menu",
+      "type": "cards",
+      "dur": 4.4,
+      "transition": "push",
+      "y": 250,
+      "cards": [
+        {
+          "prop": "bread",
+          "title": "Sourdough",
+          "body": "Two days of slow rise.",
+          "bg": "#FBEFD2"
+        },
+        {
+          "prop": "basket",
+          "title": "Seed rolls",
+          "body": "Oats, flax and sunflower.",
+          "bg": "#E3F0DA"
+        },
+        {
+          "prop": "cake",
+          "title": "Honey cake",
+          "body": "Only on Saturdays.",
+          "bg": "#FBE2DA"
+        }
+      ],
+      "cardWidth": 440
+    },
+    {
+      "id": "share",
+      "type": "world",
+      "dur": 3.8,
+      "transition": "push",
+      "theme": "spring",
+      "text": {
+        "lines": [
+          "Shared at **noon**."
+        ],
+        "x": 150,
+        "y": 160,
+        "size": 96,
+        "body": "Long tables under the old oak."
+      },
+      "props": [
+        {
+          "type": "bunting",
+          "x": 1330,
+          "y": 560,
+          "span": 760,
+          "at": 0.3,
+          "enter": "drop"
+        },
+        {
+          "type": "picnic",
+          "x": 1320,
+          "h": 96,
+          "at": 0.5
+        },
+        {
+          "type": "basket",
+          "x": 1280,
+          "y": 915,
+          "h": 120,
+          "at": 0.8
+        },
+        {
+          "type": "person",
+          "x": 1030,
+          "h": 230,
+          "color": "#E25B4B",
+          "at": 0.9
+        },
+        {
+          "type": "person",
+          "x": 1560,
+          "h": 250,
+          "color": "#27406E",
+          "pose": "wave",
+          "at": 1.0
+        },
+        {
+          "type": "person",
+          "x": 1680,
+          "h": 180,
+          "color": "#EDB33F",
+          "hair": "#8C5F3C",
+          "at": 1.1
+        },
+        {
+          "type": "tree",
+          "x": 1820,
+          "h": 420,
+          "depth": 0.6,
+          "at": 0.4
+        }
+      ]
+    },
+    {
+      "id": "loop",
+      "type": "steps",
+      "dur": 4.2,
+      "transition": "push",
+      "steps": [
+        {
+          "icon": "wheat",
+          "label": "Bake,",
+          "color": "#5FAE55"
+        },
+        {
+          "icon": "hand-heart",
+          "label": "share,",
+          "color": "#2E8C7C"
+        },
+        {
+          "icon": "repeat",
+          "label": "repeat.",
+          "color": "#E25B4B"
+        }
+      ],
+      "caption": "Every loaf, every morning, by hand."
+    },
+    {
+      "id": "close",
+      "type": "world",
+      "dur": 3.8,
+      "transition": "fade",
+      "camera": {
+        "zoom": [
+          1,
+          1.04
+        ]
+      },
+      "text": {
+        "lines": [
+          "Come by for **a slice**."
+        ],
+        "x": 150,
+        "y": 200,
+        "size": 96,
+        "body": "Open daily, 7 a.m. to 3 p.m."
+      },
+      "props": [
+        {
+          "type": "tree",
+          "x": 1520,
+          "h": 520,
+          "fruit": "#E25B4B",
+          "enter": "grow",
+          "at": 0.4
+        },
+        {
+          "type": "bench",
+          "x": 1180,
+          "h": 110,
+          "at": 0.8
+        },
+        {
+          "type": "flower",
+          "x": 1760,
+          "h": 130,
+          "at": 1.0,
+          "color": "#F08A74"
+        },
+        {
+          "type": "flower",
+          "x": 1820,
+          "h": 110,
+          "at": 1.1,
+          "color": "#F3B63E"
+        },
+        {
+          "type": "bird",
+          "x": 1080,
+          "y": 230,
+          "h": 28,
+          "float": 10,
+          "at": 1.0
+        },
+        {
+          "type": "bird",
+          "x": 1190,
+          "y": 170,
+          "h": 22,
+          "float": 10,
+          "at": 1.1
+        }
+      ]
+    },
+    {
+      "id": "end",
+      "type": "end",
+      "dur": 4,
+      "transition": "wipe",
+      "mark": {
+        "text": "S",
+        "color": "#EDB33F"
+      },
+      "name": "Sunny Lane Bakery",
+      "tagline": "Warm since sunrise."
+    }
+  ]
+}
