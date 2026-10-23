@@ -6,7 +6,7 @@ Esta carpeta conserva skills reutilizables para crear, reconstruir y validar dia
 
 Cuando usuario entregue un PDF curricular, usa esta cadena:
 
-1. `agents/skill-planificacion-semanal-clase.md`.
+1. `agents/skills/planificacion-semanal-clase/SKILL.md`.
 2. `senati-planes-pdf/SKILL.md`.
 3. `senati-presentaciones-interactivas/SKILL.md`.
 4. `image-to-editable-ppt/SKILL.md`, solo como apoyo especializado.
