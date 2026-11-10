@@ -23,6 +23,7 @@ export const week13Theory = [
     id: 'w13-t-1', type: 'cover', title: 'Arquitectura de Sistemas Operativos', subtitle: 'Conocimiento Teórico · Semana 13',
     visual: { kind: 'orbit', center: 'mdi:layers-triple', label: 'Sistema operativo', satellites: ['mdi:cpu-64-bit', 'mdi:memory', 'mdi:harddisk', 'mdi:keyboard-outline', 'mdi:monitor', 'mdi:printer', 'mdi:wifi'] },
   },
+  { id: "w13-t-index", type: "interactive-list", title: "¿Qué aprenderemos en esta semana?", items: ["Fundamentos y funciones del sistema operativo.", "Arquitectura básica: kernel, shell y API.", "Gestión de procesos, memoria y entrada/salida.", "Tipos de sistemas operativos.", "Hardware, controladores e interrupciones.", "Relación con la comunicación de datos.", "Ética, seguridad e higiene."], code: `USUARIO -> SHELL -> API -> KERNEL -> HARDWARE\n                     ^\n                solicitud de una aplicación`, language: "text", notes: "" },
   {
     id: 'w13-t-2', type: 'visual', title: '¿Qué es un sistema operativo?',
     content: 'Es el <b>software principal</b> de la computadora. Hace de puente entre las personas, los programas y el hardware.',
@@ -206,6 +207,7 @@ __________   _________   ________   _______   ______________`,
 
 export const week14Theory = [
   { id: 'w14-t-1', type: 'cover', title: 'Virtualización y Máquinas Virtuales', subtitle: 'Conocimiento Teórico · Semana 14', visual: { kind: 'hypervisor', type: 2 } },
+  { id: "w14-t-index", type: "interactive-list", title: "¿Qué aprenderemos en esta semana?", items: ["Conceptos de virtualización.", "Host, guest e hipervisor.", "Tipos de hipervisor.", "Software de virtualización.", "Formatos de disco virtual.", "Sistemas de archivos y arranque.", "Licenciamiento y eficiencia energética."], code: `HOST -> HIPERVISOR -> GUEST\nCPU + RAM + DISCO       Ubuntu virtual`, language: "text", notes: "" },
   {
     id: 'w14-t-2', type: 'visual', title: '¿Qué es la virtualización?', icon: 'mdi:layers-triple',
     content: 'Es crear <b>computadoras virtuales</b> dentro de una computadora real. Cada una funciona como un equipo independiente.',
@@ -406,6 +408,7 @@ Uso de CPU           ________   ________`,
 
 export const week15Theory = [
   { id: 'w15-t-1', type: 'cover', title: 'Componentes de Red', subtitle: 'Conocimiento Teórico · Semana 15', visual: { kind: 'orbit', center: 'mdi:router-network', label: 'Red', satellites: ['mdi:laptop', 'mdi:cellphone', 'mdi:printer', 'mdi:server', 'mdi:monitor', 'mdi:tablet'] } },
+  { id: "w15-t-index", type: "interactive-list", title: "¿Qué aprenderemos en esta semana?", items: ["Tipos y clasificación de redes.", "Modelos OSI y TCP/IP.", "Topologías de red.", "Medios de transmisión.", "Protocolos principales.", "Direcciones MAC.", "Intranet y cliente-servidor."], code: `PC -> SWITCH -> ROUTER -> SERVIDOR\n     LAN       WAN       servicio`, language: "text", notes: "" },
   {
     id: 'w15-t-2', type: 'visual', title: '¿Qué es una red?', kicker: 'Fundamentos de networking', icon: 'mdi:lan',
     content: 'Dos o más dispositivos conectados para <b>compartir información y recursos</b>.',
@@ -591,6 +594,7 @@ Intranet:        servidor ________  servicios ________`,
 
 export const week16Theory = [
   { id: 'w16-t-1', type: 'cover', title: 'Configuración de Redes LAN/WLAN', subtitle: 'Conocimiento Teórico · Semana 16', visual: { kind: 'waves' } },
+  { id: "w16-t-index", type: "interactive-list", title: "¿Qué aprenderemos en esta semana?", items: ["Direccionamiento IPv4.", "Máscara, gateway y DNS.", "Subnetting básico y VLSM.", "Protocolos DHCP, HTTP e ICMP.", "Arquitectura cliente-servidor.", "Servidores locales e Intranet.", "Diagnóstico y seguridad de red."], code: `CLIENTE -> SWITCH -> ROUTER -> SERVIDOR\n         IP local   gateway   servicio`, language: "text", notes: "" },
   {
     id: 'w16-t-2', type: 'visual', title: 'La dirección IPv4', kicker: 'Protocolo IPv4', icon: 'mdi:ip-network',
     content: 'Es como la <b>dirección de tu casa</b> en la red: identifica a cada equipo.',
