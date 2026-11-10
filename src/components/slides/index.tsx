@@ -1,7 +1,11 @@
-﻿import { useState, type CSSProperties } from 'react';
+import { useState, type CSSProperties } from 'react';
 import { Icon } from '@iconify/react';
 import { CodeBlock } from '../ui/CodeBlock';
 import { AsciiDiagram, isAsciiDiagram } from '../ui/AsciiDiagram';
+import type { VisualSpec } from '../visuals/TopicVisual';
+import { VisualStage, ClassTimer } from './interactive';
+
+export { VisualSlide, FlowSlide, CompareSlide } from './interactive';
 
 function staggerDelay(i: number): CSSProperties {
   return { '--i': i } as CSSProperties;
@@ -47,6 +51,9 @@ interface SlideProps {
   explanation?: string;
   functionsToUse?: string[];
   citations?: string[];
+  visual?: VisualSpec;
+  caption?: string;
+  minutes?: number;
 }
 
 function Citations({ citations }: { citations?: string[] }) {
@@ -63,7 +70,31 @@ function Citations({ citations }: { citations?: string[] }) {
   );
 }
 
-export function CoverSlide({ title, subtitle }: SlideProps) {
+export function CoverSlide({ title, subtitle, visual }: SlideProps) {
+  if (visual) {
+    return (
+      <div className="slide-shell slide-cover flex-1 flex flex-col justify-center p-6 sm:p-10 md:p-14 h-full min-h-[280px]">
+        <div className="grid lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)] gap-8 lg:gap-12 items-center">
+          <div className="space-y-4 sm:space-y-6 text-center lg:text-left">
+            {subtitle && (
+              <div className="slide-kicker mx-auto lg:mx-0 text-xs sm:text-base md:text-lg">
+                <Icon icon="mdi:sparkles" />
+                {subtitle}
+              </div>
+            )}
+            <h1 className="slide-title text-3xl sm:text-5xl md:text-6xl font-extrabold tracking-tight leading-[1.05]">{title}</h1>
+            <FlowAccent className="mx-auto lg:mx-0" />
+            <p className="text-sm text-[var(--color-app-muted)] font-semibold flex items-center gap-2 justify-center lg:justify-start">
+              <Icon icon="mdi:cursor-default-click-outline" className="text-[var(--color-app-primary)]" /> Mueve el mouse o haz clic sobre el fondo
+            </p>
+          </div>
+          <div className="h-[16rem] sm:h-[22rem] lg:h-[26rem]">
+            <VisualStage visual={visual} className="h-full" />
+          </div>
+        </div>
+      </div>
+    );
+  }
   return (
     <div className="slide-shell slide-cover flex-1 flex flex-col items-center justify-center p-6 sm:p-10 md:p-16 text-center h-full min-h-[280px]">
       <div className="max-w-4xl space-y-4 sm:space-y-6">
@@ -184,14 +215,15 @@ export function CodeSlide({ title, code, language, subtitle }: SlideProps) {
   );
 }
 
-export function ExerciseSlide({ title, subtitle, content, code, language, functionsToUse, citations }: SlideProps) {
+export function ExerciseSlide({ title, subtitle, content, code, language, functionsToUse, citations, visual, caption, minutes }: SlideProps) {
   return (
-    <div className="slide-shell slide-shell--exercise flex-1 flex flex-col p-4 sm:p-8 md:p-12 lg:p-16 h-full bg-[var(--color-app-surface-sec)] relative overflow-y-auto custom-slide-scroll">
+    <div className="slide-shell slide-shell--exercise flex-1 flex flex-col p-4 sm:p-8 md:p-12 lg:p-16 h-full bg-[var(--color-app-surface-sec)]/55 relative overflow-y-auto custom-slide-scroll">
       <div className="slide-heading flex items-center gap-3 sm:gap-4 mb-3 sm:mb-6 shrink-0 flex-wrap">
         <div className="slide-kicker bg-[var(--color-app-primary)] text-white px-3 py-2 sm:px-4 rounded-full shadow-lg">
           <Icon icon="mdi:flask-outline" /> Práctica
         </div>
         <h2 className="slide-title text-xl sm:text-3xl md:text-4xl font-extrabold text-[var(--color-app-text)]">{title}</h2>
+        {minutes && <div className="ml-auto"><ClassTimer minutes={minutes} /></div>}
       </div>
       {subtitle && <h3 className="text-sm sm:text-xl md:text-2xl font-semibold mb-3 sm:mb-5 text-[var(--color-app-muted)] shrink-0">{subtitle}</h3>}
       
@@ -226,9 +258,10 @@ export function ExerciseSlide({ title, subtitle, content, code, language, functi
         </div>
 
         {/* Right panel: Punto de partida con componente reutilizable */}
-        {code && (
-          <div className="flex-1 flex flex-col shrink-0">
-            {isAsciiDiagram(code, language) ? (
+        {(code || visual) && (
+          <div className="flex-1 flex flex-col gap-4 shrink-0 min-w-0">
+            {visual && <VisualStage visual={visual} caption={caption} className={code ? 'min-h-[14rem] max-h-[18rem]' : 'flex-1 min-h-[18rem]'} />}
+            {code && (isAsciiDiagram(code, language) ? (
               <AsciiDiagram code={code} title={title} />
             ) : (
               <CodeBlock
@@ -237,7 +270,7 @@ export function ExerciseSlide({ title, subtitle, content, code, language, functi
                 title="Punto de partida"
                 size="sm"
               />
-            )}
+            ))}
           </div>
         )}
       </div>
@@ -246,7 +279,7 @@ export function ExerciseSlide({ title, subtitle, content, code, language, functi
   );
 }
 
-export function ClosingSlide({ title, subtitle }: SlideProps) {
+export function ClosingSlide({ title, subtitle, visual }: SlideProps) {
   return (
     <div className="slide-shell slide-closing flex-1 flex flex-col items-center justify-center p-6 sm:p-10 md:p-16 text-center h-full min-h-[280px]">
       <div className="max-w-3xl space-y-4 sm:space-y-6">
@@ -258,13 +291,19 @@ export function ClosingSlide({ title, subtitle }: SlideProps) {
             {subtitle}
           </h2>
         )}
-        <FlowAccent className="mx-auto mt-6 sm:mt-8" />
+        {visual ? (
+          <div className="h-[13rem] sm:h-[16rem] mt-6 max-w-xl mx-auto">
+            <VisualStage visual={visual} className="h-full" />
+          </div>
+        ) : (
+          <FlowAccent className="mx-auto mt-6 sm:mt-8" />
+        )}
       </div>
     </div>
   );
 }
 
-export function CalloutSlide({ title, content, calloutType = 'info', image, code, language, citations }: SlideProps) {
+export function CalloutSlide({ title, content, calloutType = 'info', image, code, language, citations, visual, caption }: SlideProps) {
   const styles = {
     info: 'callout-card callout-card--info',
     warning: 'callout-card callout-card--warning',
@@ -277,12 +316,13 @@ export function CalloutSlide({ title, content, calloutType = 'info', image, code
   };
   
   return (
-    <div className="slide-shell slide-shell--callout flex-1 flex flex-col p-4 sm:p-8 md:p-12 lg:p-16 h-full bg-[var(--color-app-surface)] relative overflow-y-auto custom-slide-scroll">
+    <div className="slide-shell slide-shell--callout flex-1 flex flex-col p-4 sm:p-8 md:p-12 lg:p-16 h-full bg-[var(--color-app-surface)]/55 relative overflow-y-auto custom-slide-scroll">
       <div className="slide-heading flex items-center gap-2 sm:gap-4 mb-4 sm:mb-8 shrink-0">
         <Icon icon={icons[calloutType]} className={`text-3xl sm:text-4xl md:text-5xl lg:text-6xl shrink-0 ${calloutType==='warning'?'text-amber-500':calloutType==='tip'?'text-emerald-500':'text-blue-500'}`} />
          <h2 className="slide-title text-xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold uppercase tracking-widest text-[var(--color-app-text)] truncate">{title}</h2>
       </div>
       
+      <div className={`flex-1 grid gap-6 lg:gap-10 items-center ${visual ? 'lg:grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)]' : ''}`}>
        <div className={`w-full my-auto rounded-2xl sm:rounded-3xl md:rounded-[2.5rem] p-6 sm:p-8 md:p-12 ${styles[calloutType]} shadow-2xl relative overflow-hidden flex flex-col shrink-0 min-h-max`}>
          <div className="callout-glow absolute -right-16 -bottom-16 sm:-right-20 sm:-bottom-20 pointer-events-none">
            <Icon icon={icons[calloutType]} className="text-[200px] sm:text-[300px] md:text-[400px]" />
@@ -309,6 +349,8 @@ export function CalloutSlide({ title, content, calloutType = 'info', image, code
               </div>
            )}
          </div>
+      </div>
+      {visual && <VisualStage visual={visual} caption={caption} className="h-full min-h-[16rem] max-h-[26rem]" />}
       </div>
       <Citations citations={citations} />
     </div>

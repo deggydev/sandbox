@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react';
 import { AppLogo } from '../app/AppLogo';
 import { AnimatedBackdrop } from './AnimatedBackdrop';
+import { ParticleField } from '../visuals/ParticleField';
 
 interface PresentationFrameProps {
   children: ReactNode;
@@ -33,6 +34,9 @@ export function PresentationFrame({
       <main className="presentation-main flex-1 overflow-y-auto overflow-x-hidden relative flex flex-col custom-slide-scroll pb-16 sm:pb-20 lg:pb-0">
         <div className="absolute inset-0 z-0 opacity-[0.06]">
           <AnimatedBackdrop />
+        </div>
+        <div className="absolute inset-0 z-0 opacity-70">
+          <ParticleField />
         </div>
         <div className="relative z-10 flex-1 flex flex-col min-h-0">
           {children}

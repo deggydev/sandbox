@@ -1,3 +1,4 @@
+import { useRef, useState } from 'react';
 import { useParams, useLocation, useSearchParams, Navigate, Link } from 'react-router-dom';
 import { Icon } from '@iconify/react';
 import { mockCourses } from '../data/mockCourses';
@@ -230,17 +231,81 @@ function TheorySessionTemplate({ course, week }: { course: any; week: any }) {
   );
 }
 
+function SessionSheet({ slides, sheetRef }: { slides: any[]; sheetRef: React.RefObject<HTMLDivElement | null> }) {
+  return (
+    <div ref={sheetRef} className="bg-[var(--color-app-surface)] border border-[var(--color-app-border)] rounded-xl shadow-sm p-10 md:p-16 min-h-[800px] text-[var(--color-app-text)]">
+      {slides.map((slide: any, index: number) => {
+        if (slide.type === 'cover') return null;
+
+        return (
+          <div key={index} className="mb-6 border-b border-[var(--color-app-border)]/30 pb-6 last:border-0 last:pb-0">
+            {slide.title && <h2 className="text-xl font-bold mb-3">{slide.title}</h2>}
+            {slide.content && (
+              <div
+                className="text-base leading-relaxed whitespace-pre-wrap mb-4"
+                dangerouslySetInnerHTML={{ __html: slide.content }}
+              />
+            )}
+            {slide.code && (
+              <div className="mt-4 bg-[#1E1E1E] rounded-xl overflow-hidden shadow-lg border border-gray-800">
+                <div className="flex items-center px-4 py-2 bg-[#2D2D2D] border-b border-gray-800">
+                  <div className="flex gap-1.5">
+                    <div className="w-3 h-3 rounded-full bg-[#FF5F56]"></div>
+                    <div className="w-3 h-3 rounded-full bg-[#FFBD2E]"></div>
+                    <div className="w-3 h-3 rounded-full bg-[#27C93F]"></div>
+                  </div>
+                  <span className="ml-4 text-xs text-gray-400 font-mono uppercase tracking-wider">{slide.language || 'code'}</span>
+                </div>
+                <pre className="p-4 text-sm font-mono text-gray-300 overflow-x-auto whitespace-pre-wrap leading-relaxed">
+                  {slide.code}
+                </pre>
+              </div>
+            )}
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
 export function SessionPlanDocument() {
   const { courseId, weekId } = useParams();
   const location = useLocation();
   const [searchParams] = useSearchParams();
   const isTheory = location.pathname.includes('/theory');
-  
+  const [activeTab, setActiveTab] = useState<'pdf' | 'sheet'>('pdf');
+  const [copyState, setCopyState] = useState<'idle' | 'copied' | 'error'>('idle');
+  const sheetRef = useRef<HTMLDivElement>(null);
+
   const course = mockCourses.find(c => c.id === (courseId || 'piad-221')) as any;
   if (!course) return <Navigate to="/courses" replace />;
 
   const week = course.weeks.find((w: any) => w.id === weekId);
   if (!week) return <Navigate to={`/courses/${course.id}`} replace />;
+
+  const sheetSlides = (isTheory ? week.sessionPlan?.theory?.slides : week.sessionPlan?.workshop?.slides) || [];
+
+  async function handleCopy() {
+    const node = sheetRef.current;
+    if (!node) return;
+    const text = node.innerText.trim();
+    try {
+      if (typeof ClipboardItem !== 'undefined' && navigator.clipboard?.write) {
+        await navigator.clipboard.write([
+          new ClipboardItem({
+            'text/plain': new Blob([text], { type: 'text/plain' }),
+            'text/html': new Blob([node.innerHTML], { type: 'text/html' }),
+          }),
+        ]);
+      } else {
+        await navigator.clipboard.writeText(text);
+      }
+      setCopyState('copied');
+    } catch {
+      setCopyState('error');
+    }
+    window.setTimeout(() => setCopyState('idle'), 2000);
+  }
 
   const pdfName = `${course.id}-${week.id}-${isTheory ? 'theory' : 'workshop'}.pdf`;
   const pdfUrl = `/session-plans/${pdfName}`;
@@ -271,16 +336,51 @@ export function SessionPlanDocument() {
         </div>
       </div>
 
-      <div className="session-plan-pdf-viewer bg-[var(--color-app-surface)] border border-[var(--color-app-border)] rounded-xl overflow-hidden shadow-sm">
-        <iframe
-          src={`${pdfUrl}#view=FitH&navpanes=0`}
-          title={`Plan de sesión PDF: ${course.name} - ${week.title}`}
-          className="block w-full h-[calc(100vh-10rem)] min-h-[720px] border-0 bg-white"
-        />
-        <div className="p-4 text-center text-sm text-[var(--color-app-muted)]">
-          Si el visor no carga, <a href={pdfUrl} target="_blank" rel="noreferrer" className="font-semibold text-[var(--color-app-primary)] underline">abre el PDF directamente</a>.
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <div role="tablist" aria-label="Vista del plan de sesión" className="inline-flex rounded-lg border border-[var(--color-app-border)] bg-[var(--color-app-surface-sec)] p-1">
+          {([
+            ['pdf', 'PDF', 'mdi:file-pdf-box'],
+            ['sheet', 'Hoja', 'mdi:file-document-outline'],
+          ] as const).map(([key, label, icon]) => (
+            <button
+              key={key}
+              type="button"
+              role="tab"
+              aria-selected={activeTab === key}
+              onClick={() => setActiveTab(key)}
+              className={`inline-flex items-center gap-2 px-4 py-2 rounded-md text-sm font-semibold transition-colors ${
+                activeTab === key
+                  ? 'bg-[var(--color-app-primary)] text-white shadow-sm'
+                  : 'text-[var(--color-app-muted)] hover:text-[var(--color-app-text)]'
+              }`}
+            >
+              <Icon icon={icon} className="text-lg" /> {label}
+            </button>
+          ))}
         </div>
+
+        {activeTab === 'sheet' && (
+          <Button type="button" variant="ghost" onClick={handleCopy} className="inline-flex items-center gap-2 border border-[var(--color-app-border)]">
+            <Icon icon={copyState === 'copied' ? 'mdi:check' : copyState === 'error' ? 'mdi:alert-circle-outline' : 'mdi:content-copy'} className="text-lg" />
+            {copyState === 'copied' ? 'Copiado' : copyState === 'error' ? 'No se pudo copiar' : 'Copiar contenido'}
+          </Button>
+        )}
       </div>
+
+      {activeTab === 'pdf' ? (
+        <div className="session-plan-pdf-viewer bg-[var(--color-app-surface)] border border-[var(--color-app-border)] rounded-xl overflow-hidden shadow-sm">
+          <iframe
+            src={`${pdfUrl}#view=FitH&navpanes=0`}
+            title={`Plan de sesión PDF: ${course.name} - ${week.title}`}
+            className="block w-full h-[calc(100vh-10rem)] min-h-[720px] border-0 bg-white"
+          />
+          <div className="p-4 text-center text-sm text-[var(--color-app-muted)]">
+            Si el visor no carga, <a href={pdfUrl} target="_blank" rel="noreferrer" className="font-semibold text-[var(--color-app-primary)] underline">abre el PDF directamente</a>.
+          </div>
+        </div>
+      ) : (
+        <SessionSheet slides={sheetSlides} sheetRef={sheetRef} />
+      )}
     </div>
   );
 }

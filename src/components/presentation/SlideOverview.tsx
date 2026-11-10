@@ -19,6 +19,9 @@ const typeLabels: Record<string, { icon: string; label: string }> = {
   'interactive-list': { icon: 'mdi:format-list-bulleted', label: 'Lista' },
   quiz: { icon: 'mdi:help-circle-outline', label: 'Quiz' },
   solution: { icon: 'mdi:lightbulb-on-outline', label: 'Solución' },
+  visual: { icon: 'mdi:motion-play-outline', label: 'Animación' },
+  flow: { icon: 'mdi:transit-connection-variant', label: 'Recorrido' },
+  compare: { icon: 'mdi:compare-horizontal', label: 'Comparación' },
   closing: { icon: 'mdi:flag-checkered', label: 'Cierre' }
 };
 

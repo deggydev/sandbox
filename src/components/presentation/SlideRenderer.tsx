@@ -9,7 +9,10 @@ import {
   InteractiveListSlide,
   QuizSlide,
   SolutionSlide,
-  ExerciseSlide
+  ExerciseSlide,
+  VisualSlide,
+  FlowSlide,
+  CompareSlide
 } from '../slides';
 
 interface SlideRendererProps {
@@ -38,6 +41,12 @@ export function SlideRenderer({ slide }: SlideRendererProps) {
       return <QuizSlide {...slide} />;
     case 'solution':
       return <SolutionSlide {...slide} />;
+    case 'visual':
+      return <VisualSlide {...slide} />;
+    case 'flow':
+      return <FlowSlide {...slide} />;
+    case 'compare':
+      return <CompareSlide {...slide} />;
     case 'closing':
       return <ClosingSlide {...slide} />;
     default:
